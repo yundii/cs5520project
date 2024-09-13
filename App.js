@@ -11,7 +11,7 @@ export default function App() {
     <View style={styles.container}>
       <StatusBar style="auto" />
       <Header name={appName}></Header>
-      <Input autoFocus={shouldAutoFocus}/>
+      <Input autoFocus={shouldAutoFocus}/> // Pass autoFocus as props to Input
       
     </View>
   );

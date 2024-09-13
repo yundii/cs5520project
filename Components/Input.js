@@ -14,7 +14,7 @@ export default function Input({autoFocus}) {
       onChangeText={(changedText) => {
         setText(changedText);
       }}
-      autoFocus={autoFocus}
+      autoFocus={autoFocus} // Use the autoFocus property of TextInput
       
 
     />
