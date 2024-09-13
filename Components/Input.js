@@ -3,6 +3,12 @@ import React, { useState } from "react";
 
 export default function Input({ autoFocus }) {
   const [text, setText] = useState("");
+  const [hasBlurred, setHasBlurred] = useState(false);
+
+  const handleBlur = () => {
+    setHasBlurred(true);  // Set the blur state when input loses focus
+  };
+
 
   return (
     <View style={styles.container}>
@@ -14,13 +20,24 @@ export default function Input({ autoFocus }) {
         style={styles.input}
         onChangeText={(changedText) => {
           setText(changedText);
+          setHasBlurred(false);  // Reset blur state when text changes
         }}
+        onBlur={handleBlur}  // Handle blur event
         autoFocus={autoFocus}
       />
         
-      {text.length > 0 && (
-        <Text style={styles.charCount}>
-          Character count: {text.length}
+      {/* Conditional rendering based on blur state and text length */}
+      {!hasBlurred ? (
+        text.length > 0 && (
+          <Text style={styles.charCount}>
+            Character count: {text.length}
+          </Text>
+        )
+      ) : (
+        <Text style={styles.message}>
+          {text.length >= 3
+            ? "Thank you"
+            : "Please type more than 3 characters"}
         </Text>
       )}
     </View>
@@ -41,5 +58,9 @@ const styles = StyleSheet.create({
   charCount: {
     marginTop: 5,  // Add space between input and character count
     color: "gray",  // Set character count text color
+  },
+  message: {
+    marginTop: 5,  // Add space between input and message
+    color: "blue",  // Set message text color
   },
 });
