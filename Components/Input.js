@@ -1,7 +1,7 @@
-import { Button, StyleSheet, Text, TextInput, View } from "react-native";
+import { Button, Modal, StyleSheet, Text, TextInput, View } from "react-native";
 import React, { useState } from "react";
 
-export default function Input({ autoFocus, inputHandler }) {
+export default function Input({ autoFocus, inputHandler, isModalVisible }) {
   const [text, setText] = useState("");
   const [hasBlurred, setHasBlurred] = useState(false);
 
@@ -14,14 +14,15 @@ export default function Input({ autoFocus, inputHandler }) {
     inputHandler(text);
   };
 
+  
   return (
+    <Modal animationType="slide" visible = {isModalVisible}> 
     <View style={styles.container}>
       <TextInput
         placeholder="Type something"
         autoCorrect={true}
         keyboardType="default"
         value={text}
-        style={styles.input}
         onChangeText={(changedText) => {
           setText(changedText);
           setHasBlurred(false);  // Reset blur state when text changes
@@ -33,12 +34,12 @@ export default function Input({ autoFocus, inputHandler }) {
       {/* Conditional rendering based on blur state and text length */}
       {!hasBlurred ? (
         text.length > 0 && (
-          <Text style={styles.charCount}>
+          <Text >
             Character count: {text.length}
           </Text>
         )
       ) : (
-        <Text style={styles.message}>
+        <Text >
           {text.length >= 3
             ? "Thank you"
             : "Please type more than 3 characters"}
@@ -46,26 +47,15 @@ export default function Input({ autoFocus, inputHandler }) {
       )}
       <Button title="Confirm" onPress={handleConfirm} />
     </View>
+    </Modal>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    alignItems: 'center',  // Align items in the center
-  },
-  input: {
-    borderBottomColor: "purple",
-    borderBottomWidth: 2,
-    paddingVertical: 8,
-    marginVertical: 10,
-    width: 250,
-  },
-  charCount: {
-    marginTop: 5,  // Add space between input and character count
-    color: "gray",  // Set character count text color
-  },
-  message: {
-    marginTop: 5,  // Add space between input and message
-    color: "blue",  // Set message text color
+    flex: 1,
+    backgroundColor: 'red',
+    alignItems: "center",
+    justifyContent: "center",
   },
 });
