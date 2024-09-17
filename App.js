@@ -16,15 +16,7 @@ export default function App() {
   }
 
   function handleCancel() {
-    Alert.alert(
-      'Cancel Confirmation',
-      'Are you sure you want to cancel?',
-      [
-        { text: 'Cancel', style: 'cancel' },
-        { text: 'OK', onPress: () => setModalVisible(false) }
-      ],
-      { cancelable: false }
-    );
+     setModalVisible(false);
   }
   
   return (

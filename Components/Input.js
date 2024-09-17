@@ -1,4 +1,4 @@
-import {Button, Modal, StyleSheet, Text, TextInput, View } from "react-native";
+import {Alert, Button, Modal, StyleSheet, Text, TextInput, View } from "react-native";
 import React, { useState } from "react";
 
 export default function Input({ autoFocus, inputHandler, ModalVisible, handleCancel }) {
@@ -12,12 +12,27 @@ export default function Input({ autoFocus, inputHandler, ModalVisible, handleCan
   
   const handleConfirm = () => {
     inputHandler(text);
+    setText("");
   };
 
   
+  const handleCancelPress = () => {
+    Alert.alert(
+      'Cancel Confirmation',
+      'Are you sure you want to cancel?',
+      [
+        { text: 'Cancel', style: 'cancel' },
+        { text: 'OK', onPress: () => {
+          setText(""); // Clear the TextInput
+          handleCancel(); // Close the modal
+        } }
+      ],
+      { cancelable: false }
+    );
+  };
 
   return (
-    <Modal animationType="slide" visible = {ModalVisible} onRequestClose={handleCancel}> 
+    <Modal animationType="slide" visible = {ModalVisible} onRequestClose={handleCancelPress}> 
     <View style={styles.container}>
       <TextInput
         placeholder="Type something"
@@ -48,7 +63,7 @@ export default function Input({ autoFocus, inputHandler, ModalVisible, handleCan
       )}
       <View style={styles.buttonContainer}>
           <Button title="Confirm" onPress={handleConfirm} />
-          <Button title="Cancel" onPress={handleCancel} color="#ff6f6f" />
+          <Button title="Cancel" onPress={handleCancelPress} color="#ff6f6f" />
       </View>
     </View>
     </Modal>
