@@ -1,7 +1,7 @@
 import { Button, StyleSheet, Text, TextInput, View } from "react-native";
 import React, { useState } from "react";
 
-export default function Input({ autoFocus }) {
+export default function Input({ autoFocus, inputHandler }) {
   const [text, setText] = useState("");
   const [hasBlurred, setHasBlurred] = useState(false);
 
@@ -9,8 +9,9 @@ export default function Input({ autoFocus }) {
     setHasBlurred(true);  // Set the blur state when input loses focus
   };
 
+  // Call the callback function (passed as prop) in handleConfirm function and pass the text that user has typed as function parameters.
   const handleConfirm = () => {
-    alert("You typed: " + text);
+    inputHandler(text);
   };
 
   return (
