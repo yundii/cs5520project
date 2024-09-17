@@ -1,4 +1,4 @@
-import { StyleSheet, Text, TextInput, View } from "react-native";
+import { Button, StyleSheet, Text, TextInput, View } from "react-native";
 import React, { useState } from "react";
 
 export default function Input({ autoFocus }) {
@@ -9,6 +9,9 @@ export default function Input({ autoFocus }) {
     setHasBlurred(true);  // Set the blur state when input loses focus
   };
 
+  const handleConfirm = () => {
+    alert("You typed: " + text);
+  };
 
   return (
     <View style={styles.container}>
@@ -40,6 +43,7 @@ export default function Input({ autoFocus }) {
             : "Please type more than 3 characters"}
         </Text>
       )}
+      <Button title="Confirm" onPress={handleConfirm} />
     </View>
   );
 }
