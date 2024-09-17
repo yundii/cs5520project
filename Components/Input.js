@@ -1,4 +1,4 @@
-import { Button, Modal, StyleSheet, Text, TextInput, View } from "react-native";
+import {Button, Modal, StyleSheet, Text, TextInput, View } from "react-native";
 import React, { useState } from "react";
 
 export default function Input({ autoFocus, inputHandler, ModalVisible, handleCancel }) {
@@ -15,8 +15,9 @@ export default function Input({ autoFocus, inputHandler, ModalVisible, handleCan
   };
 
   
+
   return (
-    <Modal animationType="slide" visible = {ModalVisible}> 
+    <Modal animationType="slide" visible = {ModalVisible} onRequestClose={handleCancel}> 
     <View style={styles.container}>
       <TextInput
         placeholder="Type something"
@@ -65,10 +66,7 @@ const styles = StyleSheet.create({
     borderColor: "purple", 
     borderWidth: 2, 
     padding: 5 },
-  buttonContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    width: '100%',
-    marginTop: 20,
+  buttonSpacing: {
+    width: 10, // Adjust the spacing between buttons
   },
 });
