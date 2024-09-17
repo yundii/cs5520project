@@ -1,7 +1,7 @@
 import { Button, Modal, StyleSheet, Text, TextInput, View } from "react-native";
 import React, { useState } from "react";
 
-export default function Input({ autoFocus, inputHandler, isModalVisible }) {
+export default function Input({ autoFocus, inputHandler, ModalVisible }) {
   const [text, setText] = useState("");
   const [hasBlurred, setHasBlurred] = useState(false);
 
@@ -16,7 +16,7 @@ export default function Input({ autoFocus, inputHandler, isModalVisible }) {
 
   
   return (
-    <Modal animationType="slide" visible = {isModalVisible}> 
+    <Modal animationType="slide" visible = {ModalVisible}> 
     <View style={styles.container}>
       <TextInput
         placeholder="Type something"
@@ -39,7 +39,7 @@ export default function Input({ autoFocus, inputHandler, isModalVisible }) {
           </Text>
         )
       ) : (
-        <Text >
+        <Text style={styles.text}>
           {text.length >= 3
             ? "Thank you"
             : "Please type more than 3 characters"}
@@ -57,5 +57,12 @@ const styles = StyleSheet.create({
     backgroundColor: 'red',
     alignItems: "center",
     justifyContent: "center",
+  },
+  input: {
+    borderWidth: 1,
+    borderColor: "black",
+    padding: 10,
+    width: "80%",
+    marginBottom: 10,
   },
 });
