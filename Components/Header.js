@@ -12,11 +12,11 @@ export default function Header({name}) {
 
 const styles = StyleSheet.create({
   header : {
-    color: 'red',
-    fontSize: 20,
-    borderColor: 'purple',
-    borderWidth: 3,
-    padding: 10,
+    color: "darkmagenta",
+    fontSize: 25,
+    borderColor: "darkmagenta",
+    borderWidth: 2,
+    padding: 5,
     marginBottom: 10,
   },
 })

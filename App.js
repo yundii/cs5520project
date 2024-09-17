@@ -14,6 +14,18 @@ export default function App() {
     setReceivedData(data);
     setModalVisible(false);
   }
+
+  function handleCancel() {
+    Alert.alert(
+      'Cancel Confirmation',
+      'Are you sure you want to cancel?',
+      [
+        { text: 'Cancel', style: 'cancel' },
+        { text: 'OK', onPress: () => setModalVisible(false) }
+      ],
+      { cancelable: false }
+    );
+  }
   
   return (
     <SafeAreaView style={styles.container}>
@@ -22,11 +34,11 @@ export default function App() {
       <View style={styles.topView}>
       <Header name={appName}></Header>
       <Button title="Add a goal" onPress={() => setModalVisible(true)} />
-      <Input autoFocus={shouldAutoFocus} inputHandler = {handleInputData} ModalVisible = {modalVisible}/> 
+      <Input autoFocus={shouldAutoFocus} inputHandler = {handleInputData} ModalVisible = {modalVisible} handleCancel={handleCancel}/> 
     </View>
 
     <View style={styles.bottomView}>
-      <Text>Received data: {receivedData}</Text>
+    <Text style={styles.text}>{receivedData}</Text>
     </View>
     </SafeAreaView>
   );
@@ -36,7 +48,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
-    alignItems: "center",
+    // alignItems: "center",
     justifyContent: "center",
   },
   text: {

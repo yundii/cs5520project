@@ -1,7 +1,7 @@
 import { Button, Modal, StyleSheet, Text, TextInput, View } from "react-native";
 import React, { useState } from "react";
 
-export default function Input({ autoFocus, inputHandler, ModalVisible }) {
+export default function Input({ autoFocus, inputHandler, ModalVisible, handleCancel }) {
   const [text, setText] = useState("");
   const [hasBlurred, setHasBlurred] = useState(false);
 
@@ -9,7 +9,7 @@ export default function Input({ autoFocus, inputHandler, ModalVisible }) {
     setHasBlurred(true);  // Set the blur state when input loses focus
   };
 
-  // Call the callback function (passed as prop) in handleConfirm function and pass the text that user has typed as function parameters.
+  
   const handleConfirm = () => {
     inputHandler(text);
   };
@@ -45,7 +45,10 @@ export default function Input({ autoFocus, inputHandler, ModalVisible }) {
             : "Please type more than 3 characters"}
         </Text>
       )}
-      <Button title="Confirm" onPress={handleConfirm} />
+      <View style={styles.buttonContainer}>
+          <Button title="Confirm" onPress={handleConfirm} />
+          <Button title="Cancel" onPress={handleCancel} color="#ff6f6f" />
+      </View>
     </View>
     </Modal>
   );
@@ -54,15 +57,18 @@ export default function Input({ autoFocus, inputHandler, ModalVisible }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'red',
+    backgroundColor: "white",
     alignItems: "center",
     justifyContent: "center",
   },
-  input: {
-    borderWidth: 1,
-    borderColor: "black",
-    padding: 10,
-    width: "80%",
-    marginBottom: 10,
+  input: { 
+    borderColor: "purple", 
+    borderWidth: 2, 
+    padding: 5 },
+  buttonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: '100%',
+    marginTop: 20,
   },
 });
