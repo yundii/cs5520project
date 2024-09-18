@@ -1,4 +1,4 @@
-import {Alert, Button, Modal, StyleSheet, Text, TextInput, View } from "react-native";
+import {Alert, Button, Modal, StyleSheet, Text, TextInput, View, Image } from "react-native";
 import React, { useState } from "react";
 
 export default function Input({ autoFocus, inputHandler, ModalVisible, handleCancel }) {
@@ -34,10 +34,21 @@ export default function Input({ autoFocus, inputHandler, ModalVisible, handleCan
   return (
     <Modal animationType="slide" visible = {ModalVisible} onRequestClose={handleCancelPress}> 
     <View style={styles.container}>
+      <Image
+          source={{ uri: 'https://cdn-icons-png.flaticon.com/512/2617/2617812.png' }} 
+          style={styles.image} 
+          accessibilityLabel="Network image of an icon"
+      />
+      <Image 
+          source={require('./image_lab2.png')} 
+          style={styles.image} 
+          accessibilityLabel="Local image of an icon"
+      />
       <TextInput
         placeholder="Type something"
         autoCorrect={true}
         keyboardType="default"
+        style={styles.textContainer}
         value={text}
         onChangeText={(changedText) => {
           setText(changedText);
@@ -55,7 +66,7 @@ export default function Input({ autoFocus, inputHandler, ModalVisible, handleCan
           </Text>
         )
       ) : (
-        <Text style={styles.text}>
+        <Text>
           {text.length >= 3
             ? "Thank you"
             : "Please type more than 3 characters"}
@@ -77,11 +88,26 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  input: { 
-    borderColor: "purple", 
-    borderWidth: 2, 
-    padding: 5 },
+  textContainer : {
+    color: "darkmagenta",
+    fontSize: 15,
+    borderColor: "darkmagenta",
+    borderWidth: 2,
+    padding: 5,
+    marginBottom: 10,
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    width: '100%',
+    maxWidth: 400, // Optional: limits the width of the button container
+  },
   buttonSpacing: {
     width: 10, // Adjust the spacing between buttons
+  },
+  image: {
+    width: 100,
+    height: 100,
+    margin: 10,
   },
 });
