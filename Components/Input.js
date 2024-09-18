@@ -84,9 +84,10 @@ export default function Input({ autoFocus, inputHandler, ModalVisible, handleCan
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "white",
+    backgroundColor: "lightyellow",
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "flex-start",
+    marginTop: 50,
   },
   textContainer : {
     color: "darkmagenta",
