@@ -25,12 +25,17 @@ export default function App() {
      setModalVisible(false);
   }
 
+  const handleDeleteGoal = (goalId) => {
+    setGoals((currentGoals) =>
+      currentGoals.filter((goal) => goal.id !== goalId)  // Remove the goal with matching id
+    );
+  };
   // Function to render each item in FlatList
-  const renderGoalItem = ({ item }) => (
-    <View style={styles.goalItem}>
-      <Text style={styles.text}>{item.text}</Text>
-    </View>
-  );
+  // const renderGoalItem = ({ item }) => (
+  //   <View style={styles.goalItem}>
+  //     <Text style={styles.text}>{item.text}</Text>
+  //   </View>
+  // );
   
   return (
     <SafeAreaView style={styles.container}>
@@ -45,7 +50,8 @@ export default function App() {
     <View style={styles.bottomView}>
     <FlatList
         data={goals} // Pass the array of goals
-        renderItem={({ item }) => <GoalItem goal={item} />} 
+        renderItem={({ item }) => <GoalItem goal={item} onDelete={handleDeleteGoal}/>}  // Passing the goal object to GoalItem
+        keyExtractor={(item) => item.id.toString()}
         contentContainerStyle={styles.flatListContainer} // Style the FlatList container
       />
     </View>
