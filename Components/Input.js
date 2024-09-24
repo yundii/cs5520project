@@ -117,5 +117,7 @@ const styles = StyleSheet.create({
   module: {
     borderRadius: 10,
     backgroundColor: 'grey',
+    alignItems: "center",
+    justifyContent: "center",
   },
 });

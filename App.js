@@ -23,6 +23,13 @@ export default function App() {
   function handleCancel() {
      setModalVisible(false);
   }
+
+  // Function to render each item in FlatList
+  const renderGoalItem = ({ item }) => (
+    <View style={styles.goalItem}>
+      <Text style={styles.text}>{item.text}</Text>
+    </View>
+  );
   
   return (
     <SafeAreaView style={styles.container}>
@@ -35,14 +42,12 @@ export default function App() {
     </View>
 
     <View style={styles.bottomView}>
-    <ScrollView contentContainerStyle={styles.scrollViewContainer}>
-          {/* Render each goal using array.map() */}
-          {goals.map((goal) => (
-            <View key={goal.id} style={styles.goalItem}>
-              <Text style={styles.text}>{goal.text}</Text>
-            </View>
-          ))}
-        </ScrollView>
+    <FlatList
+        data={goals} // Pass the array of goals
+        renderItem={renderGoalItem} // Function to render each goal
+        keyExtractor={(item) => item.id} // Use the id as a unique key for each item
+        contentContainerStyle={styles.flatListContainer} // Style the FlatList container
+      />
     </View>
     </SafeAreaView>
   );
@@ -57,7 +62,7 @@ const styles = StyleSheet.create({
   },
   text: {
     color: "purple",
-    backgroundColor: "#aaa",
+    // backgroundColor: "#aaa",
     padding: 5,
     fontSize: 20,
     borderRadius: 5,
@@ -91,6 +96,11 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     width: "90%",
     alignItems: "center",
+  },
+  flatListContainer: {
+    alignItems: "center",
+    justifyContent: "flex-start",
+    width: "100%",
   },
 });
 
