@@ -1,7 +1,7 @@
-import { Button, Modal, StyleSheet, Text, TextInput, View } from "react-native";
+import {Alert, Button, Modal, StyleSheet, Text, TextInput, View, Image } from "react-native";
 import React, { useState } from "react";
 
-export default function Input({ autoFocus, inputHandler, ModalVisible }) {
+export default function Input({ autoFocus, inputHandler, ModalVisible, handleCancel }) {
   const [text, setText] = useState("");
   const [hasBlurred, setHasBlurred] = useState(false);
 
@@ -9,19 +9,46 @@ export default function Input({ autoFocus, inputHandler, ModalVisible }) {
     setHasBlurred(true);  // Set the blur state when input loses focus
   };
 
-  // Call the callback function (passed as prop) in handleConfirm function and pass the text that user has typed as function parameters.
+  
   const handleConfirm = () => {
     inputHandler(text);
+    setText("");
   };
 
   
+  const handleCancelPress = () => {
+    Alert.alert(
+      'Cancel Confirmation',
+      'Are you sure you want to cancel?',
+      [
+        { text: 'Cancel', style: 'cancel' },
+        { text: 'OK', onPress: () => {
+          setText(""); // Clear the TextInput
+          handleCancel(); // Close the modal
+        } }
+      ],
+      { cancelable: false }
+    );
+  };
+
   return (
-    <Modal animationType="slide" visible = {ModalVisible}> 
+    <Modal animationType="slide" visible = {ModalVisible} onRequestClose={handleCancelPress}> 
     <View style={styles.container}>
+      <Image
+          source={{ uri: 'https://cdn-icons-png.flaticon.com/512/2617/2617812.png' }} 
+          style={styles.image} 
+          accessibilityLabel="Network image of an icon"
+      />
+      <Image 
+          source={require('./image_lab2.png')} 
+          style={styles.image} 
+          accessibilityLabel="Local image of an icon"
+      />
       <TextInput
         placeholder="Type something"
         autoCorrect={true}
         keyboardType="default"
+        style={styles.textContainer}
         value={text}
         onChangeText={(changedText) => {
           setText(changedText);
@@ -39,13 +66,16 @@ export default function Input({ autoFocus, inputHandler, ModalVisible }) {
           </Text>
         )
       ) : (
-        <Text style={styles.text}>
+        <Text>
           {text.length >= 3
             ? "Thank you"
             : "Please type more than 3 characters"}
         </Text>
       )}
-      <Button title="Confirm" onPress={handleConfirm} />
+      <View style={styles.buttonContainer}>
+          <Button title="Confirm" onPress={handleConfirm} disabled={text.length < 3}/>
+          <Button title="Cancel" onPress={handleCancelPress} color="#ff6f6f" />
+      </View>
     </View>
     </Modal>
   );
@@ -54,15 +84,31 @@ export default function Input({ autoFocus, inputHandler, ModalVisible }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'red',
+    backgroundColor: "lightyellow",
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "flex-start",
+    marginTop: 50,
   },
-  input: {
-    borderWidth: 1,
-    borderColor: "black",
-    padding: 10,
-    width: "80%",
+  textContainer : {
+    color: "darkmagenta",
+    fontSize: 15,
+    borderColor: "darkmagenta",
+    borderWidth: 2,
+    padding: 5,
     marginBottom: 10,
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    width: '100%',
+    maxWidth: 400, // Optional: limits the width of the button container
+  },
+  buttonSpacing: {
+    width: 10, // Adjust the spacing between buttons
+  },
+  image: {
+    width: 100,
+    height: 100,
+    margin: 10,
   },
 });

@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, View , Text, Button, SafeAreaView} from "react-native";
+import { StyleSheet, View , Text, Button, SafeAreaView, Alert} from "react-native";
 import Header from "./Components/Header";
 import Input from "./Components/Input";
 import React, { useState } from "react";
@@ -14,6 +14,10 @@ export default function App() {
     setReceivedData(data);
     setModalVisible(false);
   }
+
+  function handleCancel() {
+     setModalVisible(false);
+  }
   
   return (
     <SafeAreaView style={styles.container}>
@@ -22,11 +26,11 @@ export default function App() {
       <View style={styles.topView}>
       <Header name={appName}></Header>
       <Button title="Add a goal" onPress={() => setModalVisible(true)} />
-      <Input autoFocus={shouldAutoFocus} inputHandler = {handleInputData} ModalVisible = {modalVisible}/> 
+      <Input autoFocus={shouldAutoFocus} inputHandler = {handleInputData} ModalVisible = {modalVisible} handleCancel={handleCancel}/> 
     </View>
 
     <View style={styles.bottomView}>
-      <Text>Received data: {receivedData}</Text>
+    <Text style={styles.text}>{receivedData}</Text>
     </View>
     </SafeAreaView>
   );
@@ -36,7 +40,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
-    alignItems: "center",
+    // alignItems: "center",
     justifyContent: "center",
   },
   text: {
