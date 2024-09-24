@@ -30,12 +30,8 @@ export default function App() {
       currentGoals.filter((goal) => goal.id !== goalId)  // Remove the goal with matching id
     );
   };
-  // Function to render each item in FlatList
-  // const renderGoalItem = ({ item }) => (
-  //   <View style={styles.goalItem}>
-  //     <Text style={styles.text}>{item.text}</Text>
-  //   </View>
-  // );
+  
+  
   
   return (
     <SafeAreaView style={styles.container}>
@@ -49,13 +45,16 @@ export default function App() {
 
     <View style={styles.bottomView}>
     <FlatList
-        data={goals} // Pass the array of goals
+        data={goals} // Pss the array of goals
         renderItem={({ item }) => <GoalItem goal={item} onDelete={handleDeleteGoal}/>}  // Passing the goal object to GoalItem
         keyExtractor={(item) => item.id.toString()}
-        contentContainerStyle={styles.flatListContainer} // Style the FlatList container
+        contentContainerStyle={styles.flatListContainer}
         ListEmptyComponent={() => (
           <Text style={styles.bottomText}>No goals to show</Text> // Display when no data
         )}
+        ListHeaderComponent={() =>
+          goals.length > 0 ? <Text style={styles.bottomText}>My goals</Text> : null
+        }
       />
     </View>
     </SafeAreaView>
