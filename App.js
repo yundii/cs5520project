@@ -1,24 +1,41 @@
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, View , Text, Button, SafeAreaView} from "react-native";
+import { StyleSheet, View , Text, Button, SafeAreaView, ScrollView, FlatList} from "react-native";
 import Header from "./Components/Header";
 import Input from "./Components/Input";
+import GoalItem from "./Components/GoalItem";
 import React, { useState } from "react";
 
 export default function App() {
-  const [receivedData, setReceivedData] = useState("");
+  const [goals, setGoals] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
   const appName = "My app!";
   const shouldAutoFocus = true;
 
   function handleInputData(data) {
     console.log("App.js", data);
-    setReceivedData(data);
+    // make a new obj and store the received data as obj's text property
+    const newGoal = { text: data, id: Math.random().toString() };
+
+    // Add the new goal to the goals array using the spread operator
+    setGoals((currentGoals) => [...currentGoals, newGoal]);
     setModalVisible(false);
   }
 
   function handleCancel() {
      setModalVisible(false);
   }
+
+  const handleDeleteGoal = (goalId) => {
+    setGoals((currentGoals) =>
+      currentGoals.filter((goal) => goal.id !== goalId)  // Remove the goal with matching id
+    );
+  };
+  // Function to render each item in FlatList
+  // const renderGoalItem = ({ item }) => (
+  //   <View style={styles.goalItem}>
+  //     <Text style={styles.text}>{item.text}</Text>
+  //   </View>
+  // );
   
   return (
     <SafeAreaView style={styles.container}>
@@ -31,7 +48,12 @@ export default function App() {
     </View>
 
     <View style={styles.bottomView}>
-    <Text style={styles.text}>{receivedData}</Text>
+    <FlatList
+        data={goals} // Pass the array of goals
+        renderItem={({ item }) => <GoalItem goal={item} onDelete={handleDeleteGoal}/>}  // Passing the goal object to GoalItem
+        keyExtractor={(item) => item.id.toString()}
+        contentContainerStyle={styles.flatListContainer} // Style the FlatList container
+      />
     </View>
     </SafeAreaView>
   );
@@ -44,8 +66,9 @@ const styles = StyleSheet.create({
     // alignItems: "center",
     justifyContent: "center",
   },
-  text: {
-    color: "purple",
+  textContainer: {
+    backgroundColor: "#aaa",
+    borderRadius: 5,
   },
   topView: {
     flex: 1,
@@ -59,7 +82,14 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   scrollViewContainer: {
+    alignItems: "center",  // Ensure the goal items are centered horizontally
+    justifyContent: "flex-start",  // Ensure goals are stacked starting from the top
+    width: "100%",
+    paddingVertical: 10,
+  },
+  flatListContainer: {
     alignItems: "center",
+    justifyContent: "flex-start",
     width: "100%",
   },
 });

@@ -32,8 +32,9 @@ export default function Input({ autoFocus, inputHandler, ModalVisible, handleCan
   };
 
   return (
-    <Modal animationType="slide" visible = {ModalVisible} onRequestClose={handleCancelPress}> 
+    <Modal animationType="slide" visible = {ModalVisible} onRequestClose={handleCancelPress} transparent={true}> 
     <View style={styles.container}>
+      <View style={styles.module}>
       <Image
           source={{ uri: 'https://cdn-icons-png.flaticon.com/512/2617/2617812.png' }} 
           style={styles.image} 
@@ -77,6 +78,7 @@ export default function Input({ autoFocus, inputHandler, ModalVisible, handleCan
           <View style={styles.buttonSpacing} />
           <Button title="Cancel" onPress={handleCancelPress} color="#ff6f6f" />
       </View>
+      </View>
     </View>
     </Modal>
   );
@@ -85,9 +87,9 @@ export default function Input({ autoFocus, inputHandler, ModalVisible, handleCan
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "lightyellow",
+    // backgroundColor: "lightyellow",
     alignItems: "center",
-    justifyContent: "flex-start",
+    justifyContent: "center",
     marginTop: 50,
   },
   textContainer : {
@@ -111,5 +113,11 @@ const styles = StyleSheet.create({
     width: 100,
     height: 100,
     margin: 10,
+  },
+  module: {
+    borderRadius: 10,
+    backgroundColor: 'grey',
+    alignItems: "center",
+    justifyContent: "center",
   },
 });
