@@ -74,6 +74,7 @@ export default function Input({ autoFocus, inputHandler, ModalVisible, handleCan
       )}
       <View style={styles.buttonContainer}>
           <Button title="Confirm" onPress={handleConfirm} disabled={text.length < 3}/>
+          <View style={styles.buttonSpacing} />
           <Button title="Cancel" onPress={handleCancelPress} color="#ff6f6f" />
       </View>
     </View>
@@ -104,7 +105,7 @@ const styles = StyleSheet.create({
     maxWidth: 400, // Optional: limits the width of the button container
   },
   buttonSpacing: {
-    width: 10, // Adjust the spacing between buttons
+    width: 40, // Adjust the spacing between buttons
   },
   image: {
     width: 100,

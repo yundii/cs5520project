@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, View , Text, Button, SafeAreaView, Alert} from "react-native";
+import { StyleSheet, View , Text, Button, SafeAreaView} from "react-native";
 import Header from "./Components/Header";
 import Input from "./Components/Input";
 import React, { useState } from "react";
@@ -9,6 +9,7 @@ export default function App() {
   const [modalVisible, setModalVisible] = useState(false);
   const appName = "My app!";
   const shouldAutoFocus = true;
+
   function handleInputData(data) {
     console.log("App.js", data);
     setReceivedData(data);
@@ -56,6 +57,10 @@ const styles = StyleSheet.create({
     backgroundColor: "lightblue",
     width : "100%",
     alignItems: "center",
+  },
+  scrollViewContainer: {
+    alignItems: "center",
+    width: "100%",
   },
 });
 
