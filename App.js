@@ -53,6 +53,9 @@ export default function App() {
         renderItem={({ item }) => <GoalItem goal={item} onDelete={handleDeleteGoal}/>}  // Passing the goal object to GoalItem
         keyExtractor={(item) => item.id.toString()}
         contentContainerStyle={styles.flatListContainer} // Style the FlatList container
+        ListEmptyComponent={() => (
+          <Text style={styles.bottomText}>No goals to show</Text> // Display when no data
+        )}
       />
     </View>
     </SafeAreaView>
@@ -66,10 +69,6 @@ const styles = StyleSheet.create({
     // alignItems: "center",
     justifyContent: "center",
   },
-  textContainer: {
-    backgroundColor: "#aaa",
-    borderRadius: 5,
-  },
   topView: {
     flex: 1,
     alignItems: "center",
@@ -77,13 +76,13 @@ const styles = StyleSheet.create({
   },
   bottomView: {
     flex: 4,
-    backgroundColor: "lightblue",
+    backgroundColor: "#dcd",
     width : "100%",
     alignItems: "center",
   },
   scrollViewContainer: {
-    alignItems: "center",  // Ensure the goal items are centered horizontally
-    justifyContent: "flex-start",  // Ensure goals are stacked starting from the top
+    alignItems: "center",  
+    justifyContent: "flex-start", 
     width: "100%",
     paddingVertical: 10,
   },
@@ -91,6 +90,14 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "flex-start",
     width: "100%",
+  },
+  bottomText: {
+    color: "darkmagenta",
+    fontSize: 25,
+    // borderColor: "darkmagenta",
+    // borderWidth: 2,
+    padding: 5,
+    marginBottom: 10,
   },
 });
 
