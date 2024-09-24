@@ -35,12 +35,14 @@ export default function App() {
     </View>
 
     <View style={styles.bottomView}>
+    <ScrollView contentContainerStyle={styles.scrollViewContainer}>
           {/* Render each goal using array.map() */}
           {goals.map((goal) => (
             <View key={goal.id} style={styles.goalItem}>
               <Text style={styles.text}>{goal.text}</Text>
             </View>
           ))}
+        </ScrollView>
     </View>
     </SafeAreaView>
   );
@@ -76,8 +78,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   scrollViewContainer: {
-    alignItems: "center",
+    alignItems: "center",  // Ensure the goal items are centered horizontally
+    justifyContent: "flex-start",  // Ensure goals are stacked starting from the top
     width: "100%",
+    paddingVertical: 10,
   },
   goalItem: {
     padding: 10,
