@@ -35,14 +35,12 @@ export default function App() {
     </View>
 
     <View style={styles.bottomView}>
-    <ScrollView contentContainerStyle={styles.scrollViewContainer}>
           {/* Render each goal using array.map() */}
           {goals.map((goal) => (
             <View key={goal.id} style={styles.goalItem}>
               <Text style={styles.text}>{goal.text}</Text>
             </View>
           ))}
-      </ScrollView>
     </View>
     </SafeAreaView>
   );
