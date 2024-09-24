@@ -1,18 +1,22 @@
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, View , Text, Button, SafeAreaView} from "react-native";
+import { StyleSheet, View , Text, Button, SafeAreaView, ScrollView, FlatList} from "react-native";
 import Header from "./Components/Header";
 import Input from "./Components/Input";
 import React, { useState } from "react";
 
 export default function App() {
-  const [receivedData, setReceivedData] = useState("");
+  const [goals, setGoals] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
   const appName = "My app!";
   const shouldAutoFocus = true;
 
   function handleInputData(data) {
     console.log("App.js", data);
-    setReceivedData(data);
+    // Create a new goal object with text and random id
+    const newGoal = { text: data, id: Math.random().toString() };
+
+    // Add the new goal to the goals array using the spread operator
+    setGoals((currentGoals) => [...currentGoals, newGoal]);
     setModalVisible(false);
   }
 
@@ -31,7 +35,14 @@ export default function App() {
     </View>
 
     <View style={styles.bottomView}>
-    <Text style={styles.text}>{receivedData}</Text>
+    <ScrollView contentContainerStyle={styles.scrollViewContainer}>
+          {/* Render each goal using array.map() */}
+          {goals.map((goal) => (
+            <View key={goal.id} style={styles.goalItem}>
+              <Text style={styles.text}>{goal.text}</Text>
+            </View>
+          ))}
+        </ScrollView>
     </View>
     </SafeAreaView>
   );
@@ -46,6 +57,14 @@ const styles = StyleSheet.create({
   },
   text: {
     color: "purple",
+    backgroundColor: "#aaa",
+    padding: 5,
+    fontSize: 20,
+    borderRadius: 5,
+  },
+  textContainer: {
+    backgroundColor: "lightyellow",
+    borderRadius: 10,
   },
   topView: {
     flex: 1,
@@ -61,6 +80,15 @@ const styles = StyleSheet.create({
   scrollViewContainer: {
     alignItems: "center",
     width: "100%",
+  },
+  goalItem: {
+    padding: 10,
+    marginVertical: 5,
+    backgroundColor: "#ccc",
+    borderColor: "#000",
+    borderWidth: 1,
+    width: "90%",
+    alignItems: "center",
   },
 });
 

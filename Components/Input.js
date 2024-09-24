@@ -32,7 +32,7 @@ export default function Input({ autoFocus, inputHandler, ModalVisible, handleCan
   };
 
   return (
-    <Modal animationType="slide" visible = {ModalVisible} onRequestClose={handleCancelPress}> 
+    <Modal animationType="slide" visible = {ModalVisible} onRequestClose={handleCancelPress} transparent={true}> 
     <View style={styles.container}>
       <Image
           source={{ uri: 'https://cdn-icons-png.flaticon.com/512/2617/2617812.png' }} 
@@ -85,7 +85,7 @@ export default function Input({ autoFocus, inputHandler, ModalVisible, handleCan
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "lightyellow",
+    // backgroundColor: "lightyellow",
     alignItems: "center",
     justifyContent: "flex-start",
     marginTop: 50,
