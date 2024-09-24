@@ -2,6 +2,7 @@ import { StatusBar } from "expo-status-bar";
 import { StyleSheet, View , Text, Button, SafeAreaView, ScrollView, FlatList} from "react-native";
 import Header from "./Components/Header";
 import Input from "./Components/Input";
+import GoalItem from "./Components/GoalItem";
 import React, { useState } from "react";
 
 export default function App() {
@@ -44,8 +45,7 @@ export default function App() {
     <View style={styles.bottomView}>
     <FlatList
         data={goals} // Pass the array of goals
-        renderItem={renderGoalItem} // Function to render each goal
-        keyExtractor={(item) => item.id} // Use the id as a unique key for each item
+        renderItem={({ item }) => <GoalItem goal={item} />} 
         contentContainerStyle={styles.flatListContainer} // Style the FlatList container
       />
     </View>
@@ -59,13 +59,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     // alignItems: "center",
     justifyContent: "center",
-  },
-  text: {
-    color: "purple",
-    // backgroundColor: "#aaa",
-    padding: 5,
-    fontSize: 20,
-    borderRadius: 5,
   },
   textContainer: {
     backgroundColor: "#aaa",
@@ -87,15 +80,6 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",  // Ensure goals are stacked starting from the top
     width: "100%",
     paddingVertical: 10,
-  },
-  goalItem: {
-    padding: 10,
-    marginVertical: 5,
-    backgroundColor: "#ccc",
-    borderColor: "#000",
-    borderWidth: 1,
-    width: "90%",
-    alignItems: "center",
   },
   flatListContainer: {
     alignItems: "center",
