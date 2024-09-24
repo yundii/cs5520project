@@ -12,7 +12,7 @@ export default function App() {
 
   function handleInputData(data) {
     console.log("App.js", data);
-    // Create a new goal object with text and random id
+    // make a new obj and store the received data as obj's text property
     const newGoal = { text: data, id: Math.random().toString() };
 
     // Add the new goal to the goals array using the spread operator
@@ -42,7 +42,7 @@ export default function App() {
               <Text style={styles.text}>{goal.text}</Text>
             </View>
           ))}
-        </ScrollView>
+      </ScrollView>
     </View>
     </SafeAreaView>
   );
@@ -63,8 +63,8 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
   textContainer: {
-    backgroundColor: "lightyellow",
-    borderRadius: 10,
+    backgroundColor: "#aaa",
+    borderRadius: 5,
   },
   topView: {
     flex: 1,
