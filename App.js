@@ -44,6 +44,7 @@ export default function App() {
       ]
     );
   };
+
   
   return (
     <SafeAreaView style={styles.container}>
@@ -57,7 +58,7 @@ export default function App() {
 
     <View style={styles.bottomView}>
     <FlatList
-        data={goals} // Pss the array of goals
+        data={goals} 
         renderItem={({ item }) => <GoalItem goal={item} onDelete={handleDeleteGoal}/>}  // Passing the goal object to GoalItem
         keyExtractor={(item) => item.id.toString()}
         contentContainerStyle={styles.flatListContainer}
@@ -65,16 +66,20 @@ export default function App() {
           <Text style={styles.bottomText}>No goals to show</Text> // Display when no data
         )}
         ListHeaderComponent={() =>
-          goals.length > 0 ? <Text style={styles.bottomText}>My goals</Text> : null
+          goals.length > 0 ? <Text style={styles.bottomText}>My Goal List</Text> : null
         }
         // Conditionally render the footer with "Delete All" button if there are goals
         ListFooterComponent={() =>
           goals.length > 0 && (
-            <View style={styles.footer}>
+            <View >
               <Button title="Delete All" onPress={handleDeleteAll}/>
             </View>
           )
         }
+        // Add separator between items
+        ItemSeparatorComponent={() => <View style={styles.separator} />} 
+        
+        
       />
     </View>
     </SafeAreaView>
@@ -106,17 +111,22 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
   },
   flatListContainer: {
-    alignItems: "center",
+    //alignItems: "center",
     justifyContent: "flex-start",
     width: "100%",
   },
   bottomText: {
     color: "darkmagenta",
     fontSize: 25,
-    // borderColor: "darkmagenta",
-    // borderWidth: 2,
     padding: 5,
     marginBottom: 10,
+  },
+  separator: {
+    height: 4, 
+    width: "90%", 
+    backgroundColor: "grey", 
+    //alignSelf: "center", 
+    marginVertical: 10,
   },
 });
 
