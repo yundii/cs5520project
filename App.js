@@ -17,6 +17,7 @@ export default function App() {
           component={Home} 
           options={{ title: "Home Page",  headerStyle: {backgroundColor: "purple"}, headerTintColor: "white" }}
         />
+        <Stack.Screen name="Details" component={GoalDetails} options={({route})=>{return{}}}/>
         <Stack.Screen name="Details" component={GoalDetails} />
       </Stack.Navigator>
     </NavigationContainer>
