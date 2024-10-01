@@ -9,6 +9,12 @@ import { Button } from "react-native";
 const Stack = createNativeStackNavigator();
 console.log(Stack);
 
+// Define a common header style
+const commonHeaderOptions = {
+  headerStyle: { backgroundColor: "purple" },
+  headerTintColor: "white",
+};
+
 export default function App() {
   return (
     <NavigationContainer>
@@ -16,11 +22,11 @@ export default function App() {
         <Stack.Screen 
           name="Home" 
           component={Home} 
-          options={{ title: "Home Page",  headerStyle: {backgroundColor: "purple"}, headerTintColor: "white" }}
+          options={{ title: "Home Page", ...commonHeaderOptions}}
         />
         <Stack.Screen name="Details" component={GoalDetails} options={({route})=>{
           return {
-            title: route.params? route.params.goalData.text: "More Details",
+            title: route.params? route.params.goalData.text: "More Details", ...commonHeaderOptions,
             headerRight: () => {
               return <Button
                 onPress={() => alert('Warning')}

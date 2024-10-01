@@ -25,19 +25,18 @@ const styles = StyleSheet.create({
     goalItem: {
       padding: 10,
       marginVertical: 5,
-      backgroundColor: "#ccc",
+      backgroundColor: "#bbb",
       borderColor: "#000",
       borderWidth: 1,
       width: "90%",
-      alignItems: "center",
+      alignSelf: "center",
       flexDirection: "row",
     },
     text: {
-        color: "purple",
-        // backgroundColor: "#aaa",
-        padding: 5,
-        fontSize: 20,
-        borderRadius: 5,
+      color: "purple",
+      padding: 5,
+      fontSize: 20,
+      borderRadius: 5,
       },
   });
 export default GoalItem;
