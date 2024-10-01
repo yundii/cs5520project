@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, View , Text, Button, SafeAreaView, ScrollView, FlatList} from "react-native";
+import { StyleSheet, View , Text, Button, SafeAreaView, FlatList, Alert} from "react-native";
 import Header from "./Components/Header";
 import Input from "./Components/Input";
 import GoalItem from "./Components/GoalItem";
@@ -30,12 +30,21 @@ export default function App() {
       currentGoals.filter((goal) => goal.id !== goalId)  // Remove the goal with matching id
     );
   };
-  // Function to render each item in FlatList
-  // const renderGoalItem = ({ item }) => (
-  //   <View style={styles.goalItem}>
-  //     <Text style={styles.text}>{item.text}</Text>
-  //   </View>
-  // );
+  
+  const handleDeleteAll = () => {
+    Alert.alert(
+      "Delete All Goals",
+      "Are you sure you want to delete all goals?",
+      [
+        {
+          text: "Yes",
+          onPress: () => setGoals([]),  // Clear all goals
+        },
+        { text: "No", style: "cancel" },
+      ]
+    );
+  };
+
   
   return (
     <SafeAreaView style={styles.container}>
@@ -49,10 +58,28 @@ export default function App() {
 
     <View style={styles.bottomView}>
     <FlatList
-        data={goals} // Pass the array of goals
+        data={goals} 
         renderItem={({ item }) => <GoalItem goal={item} onDelete={handleDeleteGoal}/>}  // Passing the goal object to GoalItem
         keyExtractor={(item) => item.id.toString()}
-        contentContainerStyle={styles.flatListContainer} // Style the FlatList container
+        contentContainerStyle={styles.flatListContainer}
+        ListEmptyComponent={() => (
+          <Text style={styles.bottomText}>No goals to show</Text> // Display when no data
+        )}
+        ListHeaderComponent={() =>
+          goals.length > 0 ? <Text style={styles.bottomText}>My Goal List</Text> : null
+        }
+        // Conditionally render the footer with "Delete All" button if there are goals
+        ListFooterComponent={() =>
+          goals.length > 0 && (
+            <View >
+              <Button title="Delete All" onPress={handleDeleteAll}/>
+            </View>
+          )
+        }
+        // Add separator between items
+        ItemSeparatorComponent={() => <View style={styles.separator} />} 
+        
+        
       />
     </View>
     </SafeAreaView>
@@ -66,10 +93,6 @@ const styles = StyleSheet.create({
     // alignItems: "center",
     justifyContent: "center",
   },
-  textContainer: {
-    backgroundColor: "#aaa",
-    borderRadius: 5,
-  },
   topView: {
     flex: 1,
     alignItems: "center",
@@ -77,20 +100,33 @@ const styles = StyleSheet.create({
   },
   bottomView: {
     flex: 4,
-    backgroundColor: "lightblue",
+    backgroundColor: "#dcd",
     width : "100%",
     alignItems: "center",
   },
   scrollViewContainer: {
-    alignItems: "center",  // Ensure the goal items are centered horizontally
-    justifyContent: "flex-start",  // Ensure goals are stacked starting from the top
+    alignItems: "center",  
+    justifyContent: "flex-start", 
     width: "100%",
     paddingVertical: 10,
   },
   flatListContainer: {
-    alignItems: "center",
+    //alignItems: "center",
     justifyContent: "flex-start",
     width: "100%",
+  },
+  bottomText: {
+    color: "darkmagenta",
+    fontSize: 25,
+    padding: 5,
+    marginBottom: 10,
+  },
+  separator: {
+    height: 4, 
+    width: "90%", 
+    backgroundColor: "grey", 
+    //alignSelf: "center", 
+    marginVertical: 10,
   },
 });
 
