@@ -2,9 +2,11 @@ import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Home from "./Components/Home";
+import GoalDetails from "./Components/GoalDetails";
 
 // Call createNativeStackNavigator outside the App function
 const Stack = createNativeStackNavigator();
+console.log(Stack);
 
 export default function App() {
   return (
@@ -13,8 +15,9 @@ export default function App() {
         <Stack.Screen 
           name="Home" 
           component={Home} 
-          options={{ title: "Home Screen" }}  // Customize screen options
+          options={{ title: "Home Page" }}
         />
+        <Stack.Screen name="Details" component={GoalDetails} />
       </Stack.Navigator>
     </NavigationContainer>
   );
