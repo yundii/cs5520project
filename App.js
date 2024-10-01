@@ -1,133 +1,36 @@
-import { StatusBar } from "expo-status-bar";
-import { StyleSheet, View , Text, Button, SafeAreaView, FlatList, Alert} from "react-native";
-import Header from "./Components/Header";
-import Input from "./Components/Input";
-import GoalItem from "./Components/GoalItem";
-import React, { useState } from "react";
+import React from "react";
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import Home from "./Components/Home";
+import GoalDetails from "./Components/GoalDetails";
+import { Button } from "react-native";
+
+// Call createNativeStackNavigator outside the App function
+const Stack = createNativeStackNavigator();
+console.log(Stack);
 
 export default function App() {
-  const [goals, setGoals] = useState([]);
-  const [modalVisible, setModalVisible] = useState(false);
-  const appName = "My app!";
-  const shouldAutoFocus = true;
-
-  function handleInputData(data) {
-    console.log("App.js", data);
-    // make a new obj and store the received data as obj's text property
-    const newGoal = { text: data, id: Math.random().toString() };
-
-    // Add the new goal to the goals array using the spread operator
-    setGoals((currentGoals) => [...currentGoals, newGoal]);
-    setModalVisible(false);
-  }
-
-  function handleCancel() {
-     setModalVisible(false);
-  }
-
-  const handleDeleteGoal = (goalId) => {
-    setGoals((currentGoals) =>
-      currentGoals.filter((goal) => goal.id !== goalId)  // Remove the goal with matching id
-    );
-  };
-  
-  const handleDeleteAll = () => {
-    Alert.alert(
-      "Delete All Goals",
-      "Are you sure you want to delete all goals?",
-      [
-        {
-          text: "Yes",
-          onPress: () => setGoals([]),  // Clear all goals
-        },
-        { text: "No", style: "cancel" },
-      ]
-    );
-  };
-
-  
   return (
-    <SafeAreaView style={styles.container}>
-      <StatusBar style="auto" />
-      
-      <View style={styles.topView}>
-      <Header name={appName}></Header>
-      <Button title="Add a goal" onPress={() => setModalVisible(true)} />
-      <Input autoFocus={shouldAutoFocus} inputHandler = {handleInputData} ModalVisible = {modalVisible} handleCancel={handleCancel}/> 
-    </View>
-
-    <View style={styles.bottomView}>
-    <FlatList
-        data={goals} 
-        renderItem={({ item }) => <GoalItem goal={item} onDelete={handleDeleteGoal}/>}  // Passing the goal object to GoalItem
-        keyExtractor={(item) => item.id.toString()}
-        contentContainerStyle={styles.flatListContainer}
-        ListEmptyComponent={() => (
-          <Text style={styles.bottomText}>No goals to show</Text> // Display when no data
-        )}
-        ListHeaderComponent={() =>
-          goals.length > 0 ? <Text style={styles.bottomText}>My Goal List</Text> : null
-        }
-        // Conditionally render the footer with "Delete All" button if there are goals
-        ListFooterComponent={() =>
-          goals.length > 0 && (
-            <View >
-              <Button title="Delete All" onPress={handleDeleteAll}/>
-            </View>
-          )
-        }
-        // Add separator between items
-        ItemSeparatorComponent={() => <View style={styles.separator} />} 
-        
-        
-      />
-    </View>
-    </SafeAreaView>
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen 
+          name="Home" 
+          component={Home} 
+          options={{ title: "Home Page",  headerStyle: {backgroundColor: "purple"}, headerTintColor: "white" }}
+        />
+        <Stack.Screen name="Details" component={GoalDetails} options={({route})=>{
+          return {
+            title: route.params? route.params.goalData.text: "More Details",
+            headerRight: () => {
+              return <Button
+                onPress={() => alert('Warning')}
+                title="Warning"
+                />;
+            },
+            }
+          } 
+      }/>
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    // alignItems: "center",
-    justifyContent: "center",
-  },
-  topView: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  bottomView: {
-    flex: 4,
-    backgroundColor: "#dcd",
-    width : "100%",
-    alignItems: "center",
-  },
-  scrollViewContainer: {
-    alignItems: "center",  
-    justifyContent: "flex-start", 
-    width: "100%",
-    paddingVertical: 10,
-  },
-  flatListContainer: {
-    //alignItems: "center",
-    justifyContent: "flex-start",
-    width: "100%",
-  },
-  bottomText: {
-    color: "darkmagenta",
-    fontSize: 25,
-    padding: 5,
-    marginBottom: 10,
-  },
-  separator: {
-    height: 4, 
-    width: "90%", 
-    backgroundColor: "grey", 
-    //alignSelf: "center", 
-    marginVertical: 10,
-  },
-});
-
-
