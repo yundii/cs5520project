@@ -5,15 +5,15 @@ import Input from "./Input";
 import GoalItem from "./GoalItem";
 import React, { useState } from "react";
 
-export default function App({navigation}) {
+export default function App({navigation, route}) {
   const [goals, setGoals] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
   const appName = "My app!";
   const shouldAutoFocus = true;
 
-  function handleGoalPress() {    
+  function handleGoalPress(pressedGoal) {    
     // nagivate to the GoalDetails screen
-    navigation.navigate("Details");
+    navigation.navigate("Details", {goalData: pressedGoal});
   }
   function handleInputData(data) {
     console.log("App.js", data);

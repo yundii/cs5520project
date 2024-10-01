@@ -3,7 +3,8 @@ import { Text, View, StyleSheet, Button } from 'react-native';
 
 const GoalItem = ({ goal, onDelete, pressHandler }) => {
   function handlePress() {
-    pressHandler();
+    // pass the goal obj back to the Home.js
+    pressHandler(goal);
   }
 
   return (
@@ -14,7 +15,7 @@ const GoalItem = ({ goal, onDelete, pressHandler }) => {
         onPress={() => onDelete(goal.id)}  // Send the goal's id back to the parent when pressed
         color="grey"  // Example of the 'color' prop on Button
       />
-      <Button title="i" color = "grey" onPress={() => handlePress()}/>
+      <Button title="<Detail>" color = "grey" onPress={() => handlePress()}/>
 
     </View>
   );
