@@ -5,15 +5,15 @@ const GoalDetails = ({ navigation, route }) => {
   // Extract goal details from the route params
 
 //   console.log(route.params.goalData);
-  function moreDetailsHandler() {
-    navigation.push("Details");
-  }
+//   function moreDetailsHandler() {
+//     navigation.push("Details");
+//   }
   return (
     <View style={styles.container}>
         {route.params ? <Text>This is the details of a goal with text {route.params.goalData.text} and id {route.params.goalData.id}</Text> : <Text>More Details</Text>}
 
       
-        <Button title="More Details" onPress={moreDetailsHandler} />
+        <Button title="More Details" onPress={() => navigation.push("Details")}/>
     </View>
   );
 };
