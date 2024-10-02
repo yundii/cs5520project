@@ -11,10 +11,6 @@ export default function App({navigation, route}) {
   const appName = "My app!";
   const shouldAutoFocus = true;
 
-//   function handleGoalPress(pressedGoal) {    
-    // nagivate to the GoalDetails screen
-//     navigation.navigate("Details", {goalData: pressedGoal});
-//   }
   function handleInputData(data) {
     console.log("App.js", data);
     // make a new obj and store the received data as obj's text property

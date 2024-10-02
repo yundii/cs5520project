@@ -24,18 +24,7 @@ export default function App() {
           component={Home} 
           options={{ title: "Home Page", ...commonHeaderOptions}}
         />
-        <Stack.Screen name="Details" component={GoalDetails} options={({route})=>{
-          return {
-            title: route.params? route.params.goalData.text: "More Details", ...commonHeaderOptions,
-            headerRight: () => {
-              return <Button
-                onPress={() => alert('Warning')}
-                title="Warning"
-                />;
-            },
-            }
-          } 
-      }/>
+        <Stack.Screen name="Details" component={GoalDetails} options={{title: "Goal Details", ...commonHeaderOptions}}/>
       </Stack.Navigator>
     </NavigationContainer>
   );
