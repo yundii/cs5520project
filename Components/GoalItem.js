@@ -1,25 +1,25 @@
 import React from 'react';
 import { Text, View, StyleSheet, Button, Pressable } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import PressableButton from './PressableButton';
 
 const GoalItem = ({ goal, onDelete}) => {
   const navigation = useNavigation();
 
   return (
-    <Pressable onPress={() => navigation.navigate("Details", { goalData: goal })}
-    android_ripple={{ color: 'purple', borderless: true, radius: 100 }} 
-    style={({ pressed }) => [
-      pressed && styles.pressedStyle, // Apply this style when pressed
-    ]}>
-    <View style= {styles.goalItem}> 
-      <Text style= {styles.text}>{goal.text}</Text>
-      <Button
-        title="X"
-        onPress={() => onDelete(goal.id)}  // Send the goal's id back to the parent when pressed
-        color="grey"  // Example of the 'color' prop on Button
-      />
+    <View style={styles.goalItem}>
+      <Text style={styles.text}>{goal.text}</Text>
+
+      {/* Reusable PressableButton for delete */}
+      <PressableButton onPress={() => onDelete(goal.id)}>
+        <Text style={styles.buttonText}>X</Text>
+      </PressableButton>
+
+      {/* Reusable PressableButton for navigating to Details */}
+      <PressableButton onPress={() => navigation.navigate("Details", { goalData: goal })}>
+        <Text style={styles.buttonText}>Details</Text>
+      </PressableButton>
     </View>
-    </Pressable>
   );
 };
 
@@ -36,12 +36,13 @@ const styles = StyleSheet.create({
     },
     text: {
       color: "purple",
-      padding: 5,
+      padding: 10,
       fontSize: 20,
       borderRadius: 5,
       },
-    pressedStyle: {
-      opacity: 0.2,  // Change opacity when pressed
+    buttonText: {
+      color: 'purple',
+      fontSize: 16,
     },
   });
 export default GoalItem;
