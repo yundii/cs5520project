@@ -1,11 +1,14 @@
 import React from 'react';
 import { Text, View, StyleSheet, Button } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
-const GoalItem = ({ goal, onDelete, pressHandler }) => {
-  function handlePress() {
+const GoalItem = ({ goal, onDelete}) => {
+  // function handlePress() {
     // pass the goal obj back to the Home.js
-    pressHandler(goal);
-  }
+  //   pressHandler(goal);
+  // }
+
+  const navigation = useNavigation();
 
   return (
     <View style= {styles.goalItem}> 
@@ -15,7 +18,10 @@ const GoalItem = ({ goal, onDelete, pressHandler }) => {
         onPress={() => onDelete(goal.id)}  // Send the goal's id back to the parent when pressed
         color="grey"  // Example of the 'color' prop on Button
       />
-      <Button title="<Detail>" color = "grey" onPress={() => handlePress()}/>
+      <Button 
+      title="<Detail>" 
+      color = "grey" 
+      onPress={() => navigation.navigate("Details", { goalData: goal })}/>
 
     </View>
   );
@@ -25,19 +31,18 @@ const styles = StyleSheet.create({
     goalItem: {
       padding: 10,
       marginVertical: 5,
-      backgroundColor: "#ccc",
+      backgroundColor: "#bbb",
       borderColor: "#000",
       borderWidth: 1,
-      width: "90%",
-      alignItems: "center",
+      width: "95%",
+      alignSelf: "center",
       flexDirection: "row",
     },
     text: {
-        color: "purple",
-        // backgroundColor: "#aaa",
-        padding: 5,
-        fontSize: 20,
-        borderRadius: 5,
+      color: "purple",
+      padding: 5,
+      fontSize: 20,
+      borderRadius: 5,
       },
   });
 export default GoalItem;

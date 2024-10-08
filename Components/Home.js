@@ -11,10 +11,6 @@ export default function App({navigation, route}) {
   const appName = "My app!";
   const shouldAutoFocus = true;
 
-  function handleGoalPress(pressedGoal) {    
-    // nagivate to the GoalDetails screen
-    navigation.navigate("Details", {goalData: pressedGoal});
-  }
   function handleInputData(data) {
     console.log("App.js", data);
     // make a new obj and store the received data as obj's text property
@@ -57,20 +53,20 @@ export default function App({navigation, route}) {
       <View style={styles.topView}>
       <Header name={appName}></Header>
       <Button title="Add a goal" onPress={() => setModalVisible(true)} />
-      <Input autoFocus={shouldAutoFocus} inputHandler = {handleInputData} ModalVisible = {modalVisible} handleCancel={handleCancel}/> 
     </View>
+    <Input autoFocus={shouldAutoFocus} inputHandler = {handleInputData} ModalVisible = {modalVisible} handleCancel={handleCancel}/> 
 
     <View style={styles.bottomView}>
     <FlatList
         data={goals} 
-        renderItem={({ item }) => <GoalItem goal={item} onDelete={handleDeleteGoal} pressHandler={handleGoalPress}/>}  // Passing the goal object to GoalItem
+        renderItem={({ item }) => <GoalItem goal={item} onDelete={handleDeleteGoal} />}  // Passing the goal object to GoalItem
         keyExtractor={(item) => item.id.toString()}
-        contentContainerStyle={styles.flatListContainer}
+        contentContainerStyle={styles.scrollViewContainer}
         ListEmptyComponent={() => (
-          <Text style={styles.bottomText}>No goals to show</Text> // Display when no data
+          <Text style={styles.header}>No goals to show</Text> // Display when no data
         )}
         ListHeaderComponent={() =>
-          goals.length > 0 ? <Text style={styles.bottomText}>My Goal List</Text> : null
+          goals.length > 0 ? <Text style={styles.header}>My Goal List</Text> : null
         }
         // Conditionally render the footer with "Delete All" button if there are goals
         ListFooterComponent={() =>
@@ -94,7 +90,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
-    // alignItems: "center",
+    alignItems: "center",
     justifyContent: "center",
   },
   topView: {
@@ -109,28 +105,23 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   scrollViewContainer: {
-    alignItems: "center",  
+    //alignItems: "center",
     justifyContent: "flex-start", 
     width: "100%",
-    paddingVertical: 10,
-  },
-  flatListContainer: {
-    //alignItems: "center",
-    justifyContent: "flex-start",
-    width: "100%",
-  },
-  bottomText: {
-    color: "darkmagenta",
-    fontSize: 25,
-    padding: 5,
-    marginBottom: 10,
+    paddingVertical: 10,  
   },
   separator: {
     height: 4, 
     width: "90%", 
     backgroundColor: "grey", 
-    //alignSelf: "center", 
+    alignSelf: "center", 
     marginVertical: 10,
+  },
+  header: {
+    color: "darkmagenta",
+    fontSize: 25,
+    marginTop: 10,
+    alignSelf: "center",
   },
 });
 
