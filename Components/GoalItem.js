@@ -11,12 +11,18 @@ const GoalItem = ({ goal, onDelete}) => {
       <Text style={styles.text}>{goal.text}</Text>
 
       {/* Reusable PressableButton for delete */}
-      <PressableButton onPress={() => onDelete(goal.id)}>
+      <PressableButton 
+        onPress={() => onDelete(goal.id)} 
+        buttonStyle={styles.buttonStyle} 
+        pressedStyle={styles.pressedStyle}>
         <Text style={styles.buttonText}>X</Text>
       </PressableButton>
 
       {/* Reusable PressableButton for navigating to Details */}
-      <PressableButton onPress={() => navigation.navigate("Details", { goalData: goal })}>
+      <PressableButton 
+        onPress={() => navigation.navigate("Details", { goalData: goal })} 
+        buttonStyle={styles.buttonStyle} 
+        pressedStyle={styles.pressedStyle}>
         <Text style={styles.buttonText}>Details</Text>
       </PressableButton>
     </View>
@@ -43,6 +49,16 @@ const styles = StyleSheet.create({
     buttonText: {
       color: 'purple',
       fontSize: 16,
+    },
+    buttonStyle: {
+      padding: 10,
+      backgroundColor: '#bbb',
+      borderRadius: 4,
+      marginVertical: 5,
+    },
+    pressedStyle: {
+      opacity: 0.2,
+      backgroundColor: "#ccc",
     },
   });
 export default GoalItem;
