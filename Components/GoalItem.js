@@ -7,7 +7,10 @@ const GoalItem = ({ goal, onDelete}) => {
 
   return (
     <Pressable onPress={() => navigation.navigate("Details", { goalData: goal })}
-    android_ripple={{ color: 'purple', borderless: true, radius: 100 }} >
+    android_ripple={{ color: 'purple', borderless: true, radius: 100 }} 
+    style={({ pressed }) => [
+      pressed && styles.pressedStyle, // Apply this style when pressed
+    ]}>
     <View style= {styles.goalItem}> 
       <Text style= {styles.text}>{goal.text}</Text>
       <Button
@@ -37,5 +40,8 @@ const styles = StyleSheet.create({
       fontSize: 20,
       borderRadius: 5,
       },
+    pressedStyle: {
+      opacity: 0.2,  // Change opacity when pressed
+    },
   });
 export default GoalItem;

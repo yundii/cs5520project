@@ -19,7 +19,9 @@ const GoalDetails = ({ navigation, route }) => {
 
   return (
     <View style={styles.container}>
-        {route.params ? <Text style={{ color: isWarning ? "red" : "black" }}>This is the details of a goal with text "{route.params.goalData.text}" and id "{route.params.goalData.id}"</Text> : <Text style={{ color: isWarning ? "red" : "black" }}>More Details</Text>}
+        {route.params ? <Text style={{ color: isWarning ? "red" : "black" }}>This is the details of a goal with text "{route.params.goalData.text}" and id "{route.params.goalData.id}"
+        </Text>
+         : <Text style={{ color: isWarning ? "red" : "black" }}>More Details</Text>}
 
       
         <Button title="More Details" onPress={() => navigation.push("Details")}/>
