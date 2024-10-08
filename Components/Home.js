@@ -4,6 +4,7 @@ import Header from "./Header";
 import Input from "./Input";
 import GoalItem from "./GoalItem";
 import React, { useState } from "react";
+import PressableButton from './PressableButton';
 
 export default function App({navigation, route}) {
   const [goals, setGoals] = useState([]);
@@ -52,7 +53,9 @@ export default function App({navigation, route}) {
       
       <View style={styles.topView}>
       <Header name={appName}></Header>
-      <Button title="Add a goal" onPress={() => setModalVisible(true)} />
+      <PressableButton onPress={() => setModalVisible(true)} buttonStyle={styles.buttonStyle} pressedStyle={styles.pressedStyle}>
+        <Text style={styles.text}>Add New Goal</Text>
+      </PressableButton>
     </View>
     <Input autoFocus={shouldAutoFocus} inputHandler = {handleInputData} ModalVisible = {modalVisible} handleCancel={handleCancel}/> 
 
@@ -122,6 +125,22 @@ const styles = StyleSheet.create({
     fontSize: 25,
     marginTop: 10,
     alignSelf: "center",
+  },
+  buttonStyle: {
+    padding: 10,
+    borderRadius: 4,
+    marginVertical: 5,
+    backgroundColor: "purple",
+  },
+  pressedStyle: {
+    opacity: 0.2,
+    backgroundColor: "#ccc",
+  },
+  text: {
+    color: "white",
+    padding: 2,
+    fontSize: 20,
+    borderRadius: 5,
   },
 });
 
