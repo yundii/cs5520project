@@ -6,7 +6,8 @@ const GoalItem = ({ goal, onDelete}) => {
   const navigation = useNavigation();
 
   return (
-    <Pressable onPress={() => navigation.navigate("Details", { goalData: goal })}>
+    <Pressable onPress={() => navigation.navigate("Details", { goalData: goal })}
+    android_ripple={{ color: 'purple', borderless: true, radius: 100 }} >
     <View style= {styles.goalItem}> 
       <Text style= {styles.text}>{goal.text}</Text>
       <Button
