@@ -1,5 +1,7 @@
 import React, { useState, useLayoutEffect } from "react";
 import { View, Text, StyleSheet, Button } from "react-native";
+import PressableButton from './PressableButton';
+import { Ionicons } from '@expo/vector-icons'; 
 
 const GoalDetails = ({ navigation, route }) => {
     const [isWarning, setIsWarning] = useState(false);
@@ -7,7 +9,9 @@ const GoalDetails = ({ navigation, route }) => {
     useLayoutEffect(() => {
       navigation.setOptions({
         headerRight: () => (
-          <Button title="Warning" onPress={handleWarningPress} />
+          <PressableButton onPress={handleWarningPress} buttonStyle={styles.buttonStyle} pressedStyle={styles.pressedStyle}>
+            <Ionicons name="warning" size={40} color="red" />
+          </PressableButton>
         ),
       });
     }, [navigation, isWarning]);
@@ -34,6 +38,16 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+  },
+  buttonStyle: {
+    padding: 1,
+    //backgroundColor: '#bbb',
+    borderRadius: 4,
+    marginVertical: 5,
+  },
+  pressedStyle: {
+    opacity: 0.2,
+    backgroundColor: "#ccc",
   },
 });
 
