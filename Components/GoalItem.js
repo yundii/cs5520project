@@ -1,29 +1,29 @@
 import React from 'react';
-import { Text, View, StyleSheet, Button } from 'react-native';
+import { Text, View, StyleSheet, Pressable} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import PressableButton from './PressableButton';
+import { Ionicons } from '@expo/vector-icons'; 
 
 const GoalItem = ({ goal, onDelete}) => {
-  // function handlePress() {
-    // pass the goal obj back to the Home.js
-  //   pressHandler(goal);
-  // }
-
   const navigation = useNavigation();
 
   return (
-    <View style= {styles.goalItem}> 
-      <Text style= {styles.text}>{goal.text}</Text>
-      <Button
-        title="X"
-        onPress={() => onDelete(goal.id)}  // Send the goal's id back to the parent when pressed
-        color="grey"  // Example of the 'color' prop on Button
-      />
-      <Button 
-      title="<Detail>" 
-      color = "grey" 
-      onPress={() => navigation.navigate("Details", { goalData: goal })}/>
+    <Pressable onPress={() => navigation.navigate("Details", { goalData: goal })}>
+    <View style={styles.goalItem}>
+      <Text style={styles.text}>{goal.text}</Text>
 
+      {/* Reusable PressableButton for delete */}
+      <PressableButton 
+        onPress={() => onDelete(goal.id)} 
+        buttonStyle={styles.buttonStyle} 
+        pressedStyle={styles.pressedStyle}>
+        <Ionicons name="trash" size={22} color="black" />
+
+      </PressableButton>
     </View>
+
+    
+    </Pressable>
   );
 };
 
@@ -40,9 +40,23 @@ const styles = StyleSheet.create({
     },
     text: {
       color: "purple",
-      padding: 5,
+      padding: 10,
       fontSize: 20,
       borderRadius: 5,
       },
+    buttonText: {
+      color: 'purple',
+      fontSize: 16,
+    },
+    buttonStyle: {
+      padding: 10,
+      backgroundColor: '#bbb',
+      borderRadius: 4,
+      marginVertical: 5,
+    },
+    pressedStyle: {
+      opacity: 0.2,
+      backgroundColor: "#ccc",
+    },
   });
 export default GoalItem;
