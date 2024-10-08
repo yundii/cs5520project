@@ -1,16 +1,12 @@
 import React from 'react';
-import { Text, View, StyleSheet, Button } from 'react-native';
+import { Text, View, StyleSheet, Button, Pressable } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 const GoalItem = ({ goal, onDelete}) => {
-  // function handlePress() {
-    // pass the goal obj back to the Home.js
-  //   pressHandler(goal);
-  // }
-
   const navigation = useNavigation();
 
   return (
+    <Pressable onPress={() => navigation.navigate("Details", { goalData: goal })}>
     <View style= {styles.goalItem}> 
       <Text style= {styles.text}>{goal.text}</Text>
       <Button
@@ -18,12 +14,8 @@ const GoalItem = ({ goal, onDelete}) => {
         onPress={() => onDelete(goal.id)}  // Send the goal's id back to the parent when pressed
         color="grey"  // Example of the 'color' prop on Button
       />
-      <Button 
-      title="<Detail>" 
-      color = "grey" 
-      onPress={() => navigation.navigate("Details", { goalData: goal })}/>
-
     </View>
+    </Pressable>
   );
 };
 
