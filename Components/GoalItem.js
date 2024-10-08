@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View, StyleSheet} from 'react-native';
+import { Text, View, StyleSheet, Pressable} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import PressableButton from './PressableButton';
 import { Ionicons } from '@expo/vector-icons'; 
@@ -8,6 +8,7 @@ const GoalItem = ({ goal, onDelete}) => {
   const navigation = useNavigation();
 
   return (
+    <Pressable onPress={() => navigation.navigate("Details", { goalData: goal })}>
     <View style={styles.goalItem}>
       <Text style={styles.text}>{goal.text}</Text>
 
@@ -16,18 +17,13 @@ const GoalItem = ({ goal, onDelete}) => {
         onPress={() => onDelete(goal.id)} 
         buttonStyle={styles.buttonStyle} 
         pressedStyle={styles.pressedStyle}>
-        <Ionicons name="trash" size={20} color="black" />
+        <Ionicons name="trash" size={22} color="black" />
 
-      </PressableButton>
-
-      {/* Reusable PressableButton for navigating to Details */}
-      <PressableButton 
-        onPress={() => navigation.navigate("Details", { goalData: goal })} 
-        buttonStyle={styles.buttonStyle} 
-        pressedStyle={styles.pressedStyle}>
-        <Text style={styles.buttonText}>Details</Text>
       </PressableButton>
     </View>
+
+    
+    </Pressable>
   );
 };
 
