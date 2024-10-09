@@ -4,7 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 import PressableButton from './PressableButton';
 import { Ionicons } from '@expo/vector-icons'; 
 
-const GoalItem = ({ goal, onDelete}) => {
+const GoalItem = ({ goal, onDelete, separators}) => {
   const navigation = useNavigation();
 
   // Function to handle long press for deletion
@@ -26,7 +26,10 @@ const GoalItem = ({ goal, onDelete}) => {
   };
 
   return (
-    <Pressable onPress={() => navigation.navigate("Details", { goalData: goal })}
+    <Pressable 
+    onPressIn={() => separators.highlight()}  // Highlight the separator when pressed
+    onPressOut={() => separators.unhighlight()}  // Unhighlight the separator when released
+    onPress={() => navigation.navigate("Details", { goalData: goal })}
     onLongPress={handleLongPress}  // Handle long press to delete 
     android_ripple={{ color: 'purple', borderless: true, radius: 100 }} 
     style={({ pressed }) => [
