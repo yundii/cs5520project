@@ -46,7 +46,19 @@ export default function App({navigation, route}) {
     );
   };
 
-  
+  const renderItem = ({ item, separators }) => (
+    <GoalItem goal={item} onDelete={handleDeleteGoal} separators={separators} />
+  );
+
+  const renderSeparator = ({ highlighted }) => (
+    <View
+      style={[
+        styles.separator,
+        highlighted ? { backgroundColor: 'purple' } : { backgroundColor: 'grey' }
+      ]}
+    />
+  );
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar style="auto" />
@@ -62,7 +74,7 @@ export default function App({navigation, route}) {
     <View style={styles.bottomView}>
     <FlatList
         data={goals} 
-        renderItem={({ item }) => <GoalItem goal={item} onDelete={handleDeleteGoal} />}  // Passing the goal object to GoalItem
+        renderItem={renderItem} 
         keyExtractor={(item) => item.id.toString()}
         contentContainerStyle={styles.scrollViewContainer}
         ListEmptyComponent={() => (
@@ -79,8 +91,7 @@ export default function App({navigation, route}) {
             </View>
           )
         }
-        // Add separator between items
-        ItemSeparatorComponent={() => <View style={styles.separator} />} 
+        ItemSeparatorComponent={renderSeparator} 
         
         
       />
