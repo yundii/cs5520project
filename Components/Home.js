@@ -6,7 +6,7 @@ import GoalItem from "./GoalItem";
 import React, { useState, useEffect } from "react";
 import PressableButton from './PressableButton';
 import {database} from '../Firebase/firebaseSetup';
-import { writeToDB, deleteDocFromDB } from "../Firebase/firestoreHelper";
+import { writeToDB, deleteDocFromDB, deleteAll } from "../Firebase/firestoreHelper";
 import { onSnapshot, collection } from "firebase/firestore";
 
 export default function App({navigation, route}) {
@@ -63,11 +63,12 @@ export default function App({navigation, route}) {
       [
         {
           text: "Yes",
-          onPress: () => setGoals([]),  // Clear all goals
+          onPress: () => deleteAll("goals"),  // Proceed with deleting all goals
         },
         { text: "No", style: "cancel" },
       ]
     );
+
   };
 
   const renderItem = ({ item, separators }) => (
