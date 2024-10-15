@@ -5,8 +5,12 @@ import Input from "./Input";
 import GoalItem from "./GoalItem";
 import React, { useState } from "react";
 import PressableButton from './PressableButton';
+import {database} from '../Firebase/firebaseSetup';
+import { writeToDB } from "../Firebase/firestoreHelper";
 
 export default function App({navigation, route}) {
+  // console.log(database);
+  // writeToDB({name: "John Doe", age: 25}, "users");
   const [goals, setGoals] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
   const appName = "My app!";
@@ -15,7 +19,8 @@ export default function App({navigation, route}) {
   function handleInputData(data) {
     console.log("App.js", data);
     // make a new obj and store the received data as obj's text property
-    const newGoal = { text: data, id: Math.random().toString() };
+    const newGoal = { text: data};
+    writeToDB(newGoal, "goals");
 
     // Add the new goal to the goals array using the spread operator
     setGoals((currentGoals) => [...currentGoals, newGoal]);
@@ -75,7 +80,7 @@ export default function App({navigation, route}) {
     <FlatList
         data={goals} 
         renderItem={renderItem} 
-        keyExtractor={(item) => item.id.toString()}
+        // keyExtractor={(item) => item.id.toString()}
         contentContainerStyle={styles.scrollViewContainer}
         ListEmptyComponent={() => (
           <Text style={styles.header}>No goals to show</Text> // Display when no data
