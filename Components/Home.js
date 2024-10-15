@@ -3,22 +3,45 @@ import { StyleSheet, View , Text, Button, SafeAreaView, FlatList, Alert} from "r
 import Header from "./Header";
 import Input from "./Input";
 import GoalItem from "./GoalItem";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PressableButton from './PressableButton';
+import {database} from '../Firebase/firebaseSetup';
+import { writeToDB, deleteDocFromDB, deleteAll } from "../Firebase/firestoreHelper";
+import { onSnapshot, collection } from "firebase/firestore";
 
 export default function App({navigation, route}) {
+  // console.log(database);
+  // writeToDB({name: "John Doe", age: 25}, "users");
   const [goals, setGoals] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
   const appName = "My app!";
+  //fetch the updated list of goals from the database
+  // Use spread syntax to add id: snapDoc.id to each object in goals array
+  useEffect(()=> {
+    onSnapshot(collection(database, "goals"), (querySnapshot) => {
+      let newArray = [];
+      querySnapshot.forEach((docSnapshot) => {
+        console.log(docSnapshot.id);
+        newArray.push({ ...docSnapshot.data(), id: docSnapshot.id});
+
+      });
+      console.log(newArray);
+      setGoals(newArray);
+    });
+  }, []);
+
+
+
   const shouldAutoFocus = true;
 
   function handleInputData(data) {
     console.log("App.js", data);
     // make a new obj and store the received data as obj's text property
-    const newGoal = { text: data, id: Math.random().toString() };
+    const newGoal = { text: data};
+    writeToDB(newGoal, "goals");
 
     // Add the new goal to the goals array using the spread operator
-    setGoals((currentGoals) => [...currentGoals, newGoal]);
+    // setGoals((currentGoals) => [...currentGoals, newGoal]);
     setModalVisible(false);
   }
 
@@ -27,9 +50,10 @@ export default function App({navigation, route}) {
   }
 
   const handleDeleteGoal = (goalId) => {
-    setGoals((currentGoals) =>
-      currentGoals.filter((goal) => goal.id !== goalId)  // Remove the goal with matching id
-    );
+    // setGoals((currentGoals) =>
+    //   currentGoals.filter((goal) => goal.id !== goalId)  // Remove the goal with matching id
+    // );
+    deleteDocFromDB(goalId, "goals");
   };
   
   const handleDeleteAll = () => {
@@ -39,11 +63,12 @@ export default function App({navigation, route}) {
       [
         {
           text: "Yes",
-          onPress: () => setGoals([]),  // Clear all goals
+          onPress: () => deleteAll("goals"),  // Proceed with deleting all goals
         },
         { text: "No", style: "cancel" },
       ]
     );
+
   };
 
   const renderItem = ({ item, separators }) => (
@@ -75,7 +100,7 @@ export default function App({navigation, route}) {
     <FlatList
         data={goals} 
         renderItem={renderItem} 
-        keyExtractor={(item) => item.id.toString()}
+        // keyExtractor={(item) => item.id.toString()}
         contentContainerStyle={styles.scrollViewContainer}
         ListEmptyComponent={() => (
           <Text style={styles.header}>No goals to show</Text> // Display when no data
