@@ -50,9 +50,9 @@ export default function App({navigation, route}) {
   }
 
   const handleDeleteGoal = (goalId) => {
-    setGoals((currentGoals) =>
-      currentGoals.filter((goal) => goal.id !== goalId)  // Remove the goal with matching id
-    );
+    // setGoals((currentGoals) =>
+    //   currentGoals.filter((goal) => goal.id !== goalId)  // Remove the goal with matching id
+    // );
     deleteDocFromDB(goalId, "goals");
   };
   
