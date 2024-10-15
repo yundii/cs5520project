@@ -6,7 +6,7 @@ import GoalItem from "./GoalItem";
 import React, { useState, useEffect } from "react";
 import PressableButton from './PressableButton';
 import {database} from '../Firebase/firebaseSetup';
-import { writeToDB } from "../Firebase/firestoreHelper";
+import { writeToDB, deleteDocFromDB } from "../Firebase/firestoreHelper";
 import { onSnapshot, collection } from "firebase/firestore";
 
 export default function App({navigation, route}) {
@@ -53,6 +53,7 @@ export default function App({navigation, route}) {
     setGoals((currentGoals) =>
       currentGoals.filter((goal) => goal.id !== goalId)  // Remove the goal with matching id
     );
+    deleteDocFromDB(goalId, "goals");
   };
   
   const handleDeleteAll = () => {
