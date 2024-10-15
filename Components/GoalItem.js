@@ -1,14 +1,41 @@
 import React from 'react';
-import { Text, View, StyleSheet, Pressable} from 'react-native';
+import { Text, View, StyleSheet, Pressable, Alert} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import PressableButton from './PressableButton';
 import { Ionicons } from '@expo/vector-icons'; 
 
-const GoalItem = ({ goal, onDelete}) => {
+const GoalItem = ({ goal, onDelete, separators}) => {
   const navigation = useNavigation();
 
+  // Function to handle long press for deletion
+  const handleLongPress = () => {
+    Alert.alert(
+      "Delete Goal",
+      "Are you sure you want to delete this goal?",
+      [
+        {
+          text: "No",
+          style: "cancel",
+        },
+        {
+          text: "Yes",
+          onPress: () => onDelete(goal.id),  // Proceed with deleting the goal
+        },
+      ]
+    );
+  };
+
   return (
-    <Pressable onPress={() => navigation.navigate("Details", { goalData: goal })}>
+    <Pressable 
+    onPressIn={() => separators.highlight()}  // Highlight the separator when pressed
+    onPressOut={() => separators.unhighlight()}  // Unhighlight the separator when released
+    onPress={() => navigation.navigate("Details", { goalData: goal })}
+    onLongPress={handleLongPress}  // Handle long press to delete 
+    android_ripple={{ color: 'purple', borderless: true, radius: 100 }} 
+    style={({ pressed }) => [
+      pressed && styles.pressedStyle, // Apply this style when pressed
+    ]}>
+
     <View style={styles.goalItem}>
       <Text style={styles.text}>{goal.text}</Text>
 
