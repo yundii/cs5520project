@@ -16,19 +16,24 @@ export default function App({navigation, route}) {
   const [modalVisible, setModalVisible] = useState(false);
   const appName = "My app!";
   //fetch the updated list of goals from the database
-  // Use spread syntax to add id: snapDoc.id to each object in goals array
+  // Update the code in the onSnapshot function in useEffect 
+  // to detach the listener when we no longer need to listen to the changes in data.
   useEffect(()=> {
-    onSnapshot(collection(database, "goals"), (querySnapshot) => {
+    const unsubscribe = onSnapshot(collection(database, "goals"), (querySnapshot) => {
       let newArray = [];
       querySnapshot.forEach((docSnapshot) => {
         console.log(docSnapshot.id);
-        newArray.push({ ...docSnapshot.data(), id: docSnapshot.id});
-
-      });
-      console.log(newArray);
-      setGoals(newArray);
+        newArray.push({ ...docSnapshot.data(), id: docSnapshot.id });
     });
-  }, []);
+    console.log(newArray);
+    setGoals(newArray);
+  });
+
+  // Cleanup the listener on unmount
+  return () => {
+    unsubscribe();
+  };
+}, []);
 
 
 

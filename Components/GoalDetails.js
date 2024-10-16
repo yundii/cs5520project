@@ -2,6 +2,7 @@ import React, { useState, useLayoutEffect } from "react";
 import { View, Text, StyleSheet, Button } from "react-native";
 import PressableButton from './PressableButton';
 import { Ionicons } from '@expo/vector-icons'; 
+import { updateWarningStatus } from "../Firebase/firestoreHelper";
 
 const GoalDetails = ({ navigation, route }) => {
     const [isWarning, setIsWarning] = useState(false);
@@ -17,8 +18,11 @@ const GoalDetails = ({ navigation, route }) => {
     }, [navigation, isWarning]);
   
     const handleWarningPress = () => {
-      setIsWarning(true);
-      navigation.setOptions({ title: "Warning!" }); 
+      if (route.params?.goalData?.id) {
+        setIsWarning(true);
+        updateWarningStatus(route.params.goalData.id, "goals", true);  // Update Firestore
+        navigation.setOptions({ title: "Warning!" });
+      }
     };
 
   return (
