@@ -26,7 +26,7 @@ const GoalUsers = () => {
         <Text style={styles.title}>Users List:</Text>
         <FlatList
           data={users}
-          keyExtractor={(item) => item.id.toString()}
+          //keyExtractor={(item) => item.id.toString()}
           renderItem={({ item }) => (
             <Text style={styles.user}>{item.name}</Text>
           )}
