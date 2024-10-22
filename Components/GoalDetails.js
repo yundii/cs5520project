@@ -1,6 +1,7 @@
 import React, { useState, useLayoutEffect } from "react";
 import { View, Text, StyleSheet, Button } from "react-native";
 import PressableButton from './PressableButton';
+import GoalUsers from './GoalUsers';
 import { Ionicons } from '@expo/vector-icons'; 
 import { updateWarningStatus } from "../Firebase/firestoreHelper";
 
@@ -33,6 +34,7 @@ const GoalDetails = ({ navigation, route }) => {
 
       
         <Button title="More Details" onPress={() => navigation.push("Details")}/>
+        <GoalUsers />
     </View>
   );
 };
