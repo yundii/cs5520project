@@ -41,4 +41,20 @@ export async function updateWarningStatus(docId, collectionName, warningStatus) 
       console.log("Update warning status error", err);
     }
   }
-  
+
+export async function getAllDocuments(collectionName) {
+    try {
+        const querySnapshot = await getDocs(collection(database, collectionName));
+        const data = [];
+        if (!querySnapshot.empty) {
+          querySnapshot.forEach((docu) => {
+            data.push(docu.data());
+        });
+        }
+        return data;
+      } catch (err) {
+        console.log("Get all documents error", err);
+      }
+
+
+}

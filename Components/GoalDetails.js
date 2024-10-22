@@ -34,7 +34,7 @@ const GoalDetails = ({ navigation, route }) => {
 
       
         <Button title="More Details" onPress={() => navigation.push("Details")}/>
-        <GoalUsers />
+        <GoalUsers id={route.params.goalData.id} />
     </View>
   );
 };
