@@ -1,4 +1,4 @@
-import { addDoc, collection, deleteDoc, doc, getDocs } from "firebase/firestore";
+import { addDoc, collection, deleteDoc, doc, getDocs, updateDoc } from "firebase/firestore";
 import { database } from "./firebaseSetup";
 
 export async function writeToDB(data, collectionName) {
@@ -31,3 +31,14 @@ export async function deleteAll(collectionName) {
         console.log("Delete all", err);
     }
 }
+
+
+export async function updateWarningStatus(docId, collectionName, warningStatus) {
+    try {
+      const goalDocRef = doc(database, collectionName, docId);
+      await updateDoc(goalDocRef, { warning: warningStatus });
+    } catch (err) {
+      console.log("Update warning status error", err);
+    }
+  }
+  
