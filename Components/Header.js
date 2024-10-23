@@ -1,13 +1,17 @@
-import { StyleSheet, Text, View, Dimensions } from 'react-native'
+import { StyleSheet, Text, View, Dimensions, useWindowDimensions } from 'react-native'
 import React from 'react'
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
 export default function Header({name}) {
+  const { width, height } = useWindowDimensions();
+  console.log(width);
   return (
     <View>
-      <Text style= {styles.header}>Welcome to {name} !!</Text>
+      <Text style={[styles.header, { paddingVertical: height < 415 ? 0 : 10 }]}>
+        Welcome to {name}
+      </Text>
 
     </View>
   )
@@ -21,8 +25,6 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     padding: 5,
     marginBottom: 10,
-    paddingHorizontal: windowWidth < 380 ? 10 : 20,
-    paddingVertical: windowHeight < 600 ? 0 : 10,
     borderRadius: 10,
   },
 })
