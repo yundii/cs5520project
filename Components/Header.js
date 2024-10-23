@@ -16,7 +16,7 @@ export default function Header({name}) {
 const styles = StyleSheet.create({
   header : {
     color: "darkmagenta",
-    fontSize: 25,
+    fontSize: windowWidth < 380 ? 20 : 25,
     borderColor: "darkmagenta",
     borderWidth: 2,
     padding: 5,
