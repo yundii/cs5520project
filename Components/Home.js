@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, View , Text, Button, SafeAreaView, FlatList, Alert} from "react-native";
+import { StyleSheet, View , Text, Button, SafeAreaView, FlatList, Alert, Pressable} from "react-native";
 import Header from "./Header";
 import Input from "./Input";
 import GoalItem from "./GoalItem";
@@ -8,6 +8,7 @@ import PressableButton from './PressableButton';
 import {database} from '../Firebase/firebaseSetup';
 import { writeToDB, deleteDocFromDB, deleteAll } from "../Firebase/firestoreHelper";
 import { onSnapshot, collection } from "firebase/firestore";
+import { Ionicons } from '@expo/vector-icons';
 
 export default function App({navigation, route}) {
   // console.log(database);
@@ -34,7 +35,6 @@ export default function App({navigation, route}) {
     unsubscribe();
   };
 }, []);
-
 
 
   const shouldAutoFocus = true;
@@ -88,6 +88,7 @@ export default function App({navigation, route}) {
       ]}
     />
   );
+
 
   return (
     <SafeAreaView style={styles.container}>
