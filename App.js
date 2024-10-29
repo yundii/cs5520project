@@ -22,21 +22,21 @@ export default function App() {
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen 
-          name="Home" 
-          component={Home} 
-          options={{ title: "Home Page", ...commonHeaderOptions}}
+          name="Login" 
+          component={Login} 
+          options={{ title: "Login", ...commonHeaderOptions }}
         />
-        <Stack.Screen name="Details" component={GoalDetails} options={{title: "Goal Details", ...commonHeaderOptions}}/>
         <Stack.Screen 
           name="Signup" 
           component={Signup} 
           options={{ title: "Sign Up", ...commonHeaderOptions }}
         />
         <Stack.Screen 
-          name="Login" 
-          component={Login} 
-          options={{ title: "Login", ...commonHeaderOptions }}
+          name="Home" 
+          component={Home} 
+          options={{ title: "Home Page", ...commonHeaderOptions}}
         />
+        <Stack.Screen name="Details" component={GoalDetails} options={{title: "Goal Details", ...commonHeaderOptions}}/>
       </Stack.Navigator>
     </NavigationContainer>
   );

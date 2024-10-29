@@ -1,14 +1,33 @@
 import React, { useState } from 'react';
 import { View, TextInput, Button, Text, StyleSheet } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { auth } from '../Firebase/firebaseSetup';
+import { signInWithEmailAndPassword } from 'firebase/auth';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const navigation = useNavigation();
 
   const handleLogin = () => {
-    // Logic for handling login (e.g., Firebase authentication)
-    console.log("Logging in with:", email, password);
-    // Add login logic here
+    if (!email || !password) {
+      alert('Email and password are required');
+    } else {
+      try {
+        signInWithEmailAndPassword(auth, email, password)
+          .then(() => {
+            console.log('User logged in');
+            navigation.navigate('Home');
+          })
+          .catch((error) => {
+            console.error('Login error:', error);
+            alert('Login failed. Please try again.');
+          });
+      } catch (error) {
+        console.error('Login error:', error);
+        alert('Login failed. Please try again.');
+      }
+    }
   };
 
   return (
@@ -24,7 +43,7 @@ const Login = () => {
         placeholder="Password"
         value={password}
         onChangeText={setPassword}
-        secureTextEntry
+        secureTextEntry={true}
         style={styles.input}
       />
       <Button title="Login" onPress={handleLogin} />

@@ -1,18 +1,32 @@
 import React, { useState } from 'react';
-import { View, TextInput, Button, Text, StyleSheet } from 'react-native';
+import { View, TextInput, Button, Text, StyleSheet, Alert } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { auth } from '../Firebase/firebaseSetup';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
 
 const Signup = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const navigation = useNavigation();
 
+  // use alert if no email or password or password not match
   const handleSignup = () => {
-    // Logic for handling signup (e.g., Firebase authentication)
-    if (password === confirmPassword) {
-      console.log("Signing up with:", email, password);
-      // Add signup logic here
+    if (!email || !password) {
+      alert('Email and password are required');
+    } else if (password !== confirmPassword) {
+      alert('Passwords do not match');
     } else {
-      console.log("Passwords do not match");
+      try {
+        const userCredential = createUserWithEmailAndPassword(auth, email, password);
+        const user = userCredential.user;
+        console.log('User created:', user);
+        Alert.alert('Success', 'Account created successfully!');
+        navigation.navigate("Login"); // Navigate to Login screen upon successful signup
+      } catch (error) {
+        console.error("Signup error:", error);
+        Alert.alert("Signup Failed", error.message);
+      }
     }
   };
 
@@ -28,6 +42,7 @@ const Signup = () => {
       <TextInput
         placeholder="Password"
         value={password}
+        securityTextEntry={true}
         onChangeText={setPassword}
         secureTextEntry
         style={styles.input}
@@ -35,6 +50,7 @@ const Signup = () => {
       <TextInput
         placeholder="Confirm Password"
         value={confirmPassword}
+        securityTextEntry={true}
         onChangeText={setConfirmPassword}
         secureTextEntry
         style={styles.input}
