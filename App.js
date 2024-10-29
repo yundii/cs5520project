@@ -5,8 +5,12 @@ import Home from "./Components/Home";
 import GoalDetails from "./Components/GoalDetails";
 import Signup from "./Components/Signup";
 import Login from "./Components/Login";
-import { onAuthStateChanged } from "firebase/auth";
+import Profile from "./Components/Profile";
+import { onAuthStateChanged, signOut } from "firebase/auth";
 import { auth } from "./Firebase/firebaseSetup";
+import { Ionicons } from "@expo/vector-icons";
+import { Pressable } from "react-native";
+
 
 // Call createNativeStackNavigator outside the App function
 const Stack = createNativeStackNavigator();
@@ -26,11 +30,19 @@ const AuthStack =
  
 const AppStack = 
   <>
-    <Stack.Screen name="Home" component={Home} options={{ title: "Home Page", ...commonHeaderOptions }} />
+    <Stack.Screen name="Home" component={Home} options={({navigation})=>{ return{ title: "Home Page", ...commonHeaderOptions , headerRight: () => (
+      <Pressable onPress={() => navigation.navigate("Profile")}>
+        <Ionicons name="person" size={30} color="white" style={{marginRight: 10}}/>
+      </Pressable>)}}} />
+    <Stack.Screen name="Profile" component={Profile} options={({navigation})=>{ return { title: "Profile", ...commonHeaderOptions, headerRight: () => (
+      <Pressable onPress={() => signOut(auth)}>
+        <Ionicons name="log-out" size={30} color="white" style={{marginRight: 10}}/>
+      </Pressable>
+    )}}
+    } />
     <Stack.Screen name="Details" component={GoalDetails} options={{ title: "Goal Details", ...commonHeaderOptions }} />
   </>
  
-
 
 export default function App() {
   const [isUserLoggedIn, setIsUserAuthenticated] = useState(false);
