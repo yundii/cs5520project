@@ -43,7 +43,7 @@ const Login = () => {
         placeholder="Password"
         value={password}
         onChangeText={setPassword}
-        secureTextEntry={true}
+        secureTextEntry
         style={styles.input}
       />
       <Button title="Login" onPress={handleLogin} />

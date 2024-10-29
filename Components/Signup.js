@@ -19,6 +19,7 @@ const Signup = () => {
     } else {
       try {
         const userCredential = createUserWithEmailAndPassword(auth, email, password);
+        //console.log('User created:', userCredential);
         const user = userCredential.user;
         console.log('User created:', user);
         Alert.alert('Success', 'Account created successfully!');
@@ -42,7 +43,6 @@ const Signup = () => {
       <TextInput
         placeholder="Password"
         value={password}
-        securityTextEntry={true}
         onChangeText={setPassword}
         secureTextEntry
         style={styles.input}
@@ -50,7 +50,6 @@ const Signup = () => {
       <TextInput
         placeholder="Confirm Password"
         value={confirmPassword}
-        securityTextEntry={true}
         onChangeText={setConfirmPassword}
         secureTextEntry
         style={styles.input}
