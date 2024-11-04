@@ -40,7 +40,7 @@ const AppStack =
       </Pressable>
     )}}
     } />
-    <Stack.Screen name="Details" component={GoalDetails} options={{ title: "Goal Details", ...commonHeaderOptions }} />
+    <Stack.Screen name="Details" component={GoalDetails} options={({route}) => { return { title: route.params ? route.params.goalData.text : "More Details", ...commonHeaderOptions };}} />
   </>
  
 
