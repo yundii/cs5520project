@@ -9,26 +9,25 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const navigation = useNavigation();
 
-  const handleLogin = () => {
-    if (!email || !password) {
-      alert('Email and password are required');
-    } else {
-      try {
-        signInWithEmailAndPassword(auth, email, password)
-          .then(() => {
-            console.log('User logged in');
-            navigation.navigate('Home');
-          })
-          .catch((error) => {
-            console.error('Login error:', error);
-            alert('Login failed. Please try again.');
-          });
-      } catch (error) {
-        console.error('Login error:', error);
-        alert('Login failed. Please try again.');
-      }
+  const handleSignUp = () => {
+    navigation.replace("Signup");
+  };
+
+  const handleLogin = async () => {
+    // verify email and passward:  verification logic, e.g. regex for email, password length, etc.
+    if (email.length === 0 || password.length === 0) {
+      Alert.alert("All fields should be provided");
+      return;
+    }
+    try {
+      const userCred = await signInWithEmailAndPassword(auth, email, password);
+      console.log(userCred.user);
+    } catch (err) {
+      console.log("login ", err);
     }
   };
+
+    
 
   return (
     <View style={styles.container}>
@@ -49,7 +48,7 @@ const Login = () => {
       <Button title="Login" onPress={handleLogin} />
       <Button
         title="New User? Create an account"
-        onPress={() => navigation.navigate("Signup")}
+        onPress={handleSignUp}
       />
     </View>
   );

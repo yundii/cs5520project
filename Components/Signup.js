@@ -10,26 +10,49 @@ const Signup = () => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const navigation = useNavigation();
 
-  // use alert if no email or password or password not match
-  const handleSignup = () => {
-    if (!email || !password) {
-      alert('Email and password are required');
-    } else if (password !== confirmPassword) {
-      alert('Passwords do not match');
-    } else {
-      try {
-        const userCredential = createUserWithEmailAndPassword(auth, email, password);
-        //console.log('User created:', userCredential);
-        const user = userCredential.user;
-        console.log('User created:', user);
-        Alert.alert('Success', 'Account created successfully!');
-        navigation.navigate("Login"); // Navigate to Login screen upon successful signup
-      } catch (error) {
-        console.error("Signup error:", error);
-        Alert.alert("Signup Failed", error.message);
-      }
+  const handleLogin = () => {
+    navigation.navigate("Login");
+  }
+
+  const handleSignup = async () => {
+    // Regular expressions for validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Basic email format validation
+    const passwordMinLength = 6; // Minimum password length
+    
+    // Validation: check if fields are not empty
+    if (email.length === 0 || password.length === 0 || confirmPassword.length === 0) {
+        Alert.alert("All fields should be provided");
+        return;
     }
-  };
+    
+    // Validation: check if email format is correct
+    if (!emailRegex.test(email)) {
+        Alert.alert("Please enter a valid email address");
+        return;
+    }
+    
+    // Validation: check password length
+    if (password.length < passwordMinLength) {
+        Alert.alert(`Password should be at least ${passwordMinLength} characters`);
+        return;
+    }
+    
+    // Validation: check if password and confirm password match
+    if (password !== confirmPassword) {
+        Alert.alert("Password and confirm password don't match");
+        return;
+    }
+    
+    try {
+        // Attempt to create user
+        const userCred = await createUserWithEmailAndPassword(auth, email, password);
+        console.log("User created:", userCred.user);
+    } catch (err) {
+        console.log("Sign up error:", err);
+        Alert.alert(err.message);
+    }
+};
+
 
   return (
     <View style={styles.container}>
@@ -57,7 +80,7 @@ const Signup = () => {
       <Button title="Sign Up" onPress={handleSignup} />
       <Button
         title="Already Registered? Login"
-        onPress={() => navigation.navigate("Login")}
+        onPress={handleLogin}
       />
     </View>
   );
