@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View, StyleSheet, Pressable, Alert} from 'react-native';
+import { Text, View, StyleSheet, Pressable, Alert, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import PressableButton from './PressableButton';
 import { Ionicons } from '@expo/vector-icons'; 
@@ -37,15 +37,21 @@ const GoalItem = ({ goal, onDelete, separators}) => {
     ]}>
 
     <View style={styles.goalItem}>
-      <Text style={styles.text}>{goal.text}</Text>
+      <View style={styles.contentContainer}>
+        <Text style={styles.text}>{goal.text}</Text>
+        {goal.imageUri && (
+          <Image 
+            source={{ uri: goal.imageUri }} 
+            style={styles.image} 
+          />
+        )}
+      </View>
 
-      {/* Reusable PressableButton for delete */}
       <PressableButton 
         onPress={() => onDelete(goal.id)} 
         buttonStyle={styles.buttonStyle} 
         pressedStyle={styles.pressedStyle}>
         <Ionicons name="trash" size={22} color="black" />
-
       </PressableButton>
     </View>
 
@@ -64,16 +70,24 @@ const styles = StyleSheet.create({
       width: "95%",
       alignSelf: "center",
       flexDirection: "row",
+      justifyContent: "space-between",
+      alignItems: "center",
+    },
+    contentContainer: {
+      flex: 1,
+      flexDirection: "column",
     },
     text: {
       color: "purple",
       padding: 10,
       fontSize: 20,
       borderRadius: 5,
-      },
-    buttonText: {
-      color: 'purple',
-      fontSize: 16,
+    },
+    image: {
+      width: 100,
+      height: 100,
+      marginTop: 5,
+      borderRadius: 5,
     },
     buttonStyle: {
       padding: 10,

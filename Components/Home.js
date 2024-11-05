@@ -2,10 +2,11 @@ import { StatusBar } from "expo-status-bar";
 import { StyleSheet, View , Text, Button, SafeAreaView, FlatList, Alert, Pressable} from "react-native";
 import Header from "./Header";
 import Input from "./Input";
+import { query, where } from "firebase/firestore";
 import GoalItem from "./GoalItem";
 import React, { useState, useEffect } from "react";
 import PressableButton from './PressableButton';
-import {database} from '../Firebase/firebaseSetup';
+import {auth, database} from '../Firebase/firebaseSetup';
 import { writeToDB, deleteDocFromDB, deleteAll } from "../Firebase/firestoreHelper";
 import { onSnapshot, collection } from "firebase/firestore";
 import { Ionicons } from '@expo/vector-icons';
@@ -16,11 +17,10 @@ export default function App({navigation, route}) {
   const [goals, setGoals] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
   const appName = "My app!";
-  //fetch the updated list of goals from the database
-  // Update the code in the onSnapshot function in useEffect 
-  // to detach the listener when we no longer need to listen to the changes in data.
   useEffect(()=> {
-    const unsubscribe = onSnapshot(collection(database, "goals"), (querySnapshot) => {
+    const unsubscribe = onSnapshot(
+      query(collection(database, "goals"),where("owner", "==", auth.currentUser.uid)),
+     (querySnapshot) => {
       let newArray = [];
       querySnapshot.forEach((docSnapshot) => {
         console.log(docSnapshot.id);
@@ -28,7 +28,11 @@ export default function App({navigation, route}) {
     });
     console.log(newArray);
     setGoals(newArray);
-  });
+  },
+  (error) => {
+    console.log("Error fetching goals", error.message);
+  }
+);
 
   // Cleanup the listener on unmount
   return () => {
@@ -41,8 +45,16 @@ export default function App({navigation, route}) {
 
   function handleInputData(data) {
     console.log("App.js", data);
+    let newGoal = {
+      text: data.text,
+      imageUri: data.imageUri,
+      owner: auth.currentUser.uid,
+    };
     // make a new obj and store the received data as obj's text property
-    const newGoal = { text: data};
+    // const newGoal = {
+    //   text: data.text,
+    //   imageUri: data.imageUri,
+    // };
     writeToDB(newGoal, "goals");
 
     // Add the new goal to the goals array using the spread operator
