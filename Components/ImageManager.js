@@ -1,9 +1,10 @@
-import React from 'react';
-import { View, Button, Alert, } from 'react-native';
+import React, { useState } from 'react';
+import { View, Button, Alert,Image, StyleSheet } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 
 export default function ImageManager() {
   const [permissionResponse, requestPermission] = ImagePicker.useCameraPermissions();
+  const [imageUri, setImageUri] = useState(null);
 
   // Define the verifyPermission function
   const verifyPermission = async () => {
@@ -18,12 +19,14 @@ export default function ImageManager() {
   const takeImageHandler = async () => {
     // Call verifyPermission and only proceed if permission is granted
     const hasPermission = await verifyPermission();
+
     if (!hasPermission) {
       Alert.alert(
         'Permission Denied',
         'You need to grant camera access to take photos.',
         [{ text: 'OK' }]
       );
+
       return;
     }
 
@@ -35,8 +38,8 @@ export default function ImageManager() {
       });
 
       if (!result.canceled) {
+        setImageUri(result.assets[0].uri); 
         console.log('Image selected:', result.assets[0].uri);
-        // Handle the selected image URI as needed
       }
     } catch (err) {
       Alert.alert('Error', 'An error occurred while opening the camera.');
@@ -45,8 +48,24 @@ export default function ImageManager() {
   };
 
   return (
-    <View>
+    <View style={styles.container}>
       <Button title="Take a Photo" onPress={takeImageHandler} />
+      {imageUri && (  
+        <Image source={{ uri: imageUri }} style={styles.imagePreview} />
+      )}
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+    container: {
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    imagePreview: {
+      width: 200,
+      height: 200,
+      marginTop: 20,
+      borderRadius: 10,
+    },
+  });
