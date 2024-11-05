@@ -1,9 +1,3 @@
-//- Make a new component Profile.js and display some information (e.g., email and uid) about the current user by accessing [currentUser](https://firebase.google.com/docs/auth/web/manage-users) property on Auth service instance.
-//- Register a <Stack.Screen> to this component in the AppStack.
-//- Add a pressable icon to the right side of the Home screen to navigate user to the Profile screen. (Hint: headerRight)
-//   - You should pass a function to [options](https://reactnavigation.org/docs/screen-options/) on <Stack.Screen> component linked to "Home" so you can receive the navigation prop.
-
-// Profile.js
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { auth } from "../Firebase/firebaseSetup";
