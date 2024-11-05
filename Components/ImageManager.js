@@ -1,30 +1,42 @@
 import React from 'react';
-import { View, Button, Alert } from 'react-native';
+import { View, Button, Alert, } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 
 export default function ImageManager() {
-  const takeImageHandler = async () => {
-    try {
-      // Request permission to access the camera
-      const { status } = await ImagePicker.requestCameraPermissionsAsync();
-      if (status !== 'granted') {
-        Alert.alert(
-          'Camera Access Required',
-          'Camera access is needed to take photos',
-          [{ text: 'OK' }]
-        );
-        return;
-      }
+  const [permissionResponse, requestPermission] = ImagePicker.useCameraPermissions();
 
-      // Launch the camera
+  // Define the verifyPermission function
+  const verifyPermission = async () => {
+    if (permissionResponse?.granted) {
+      return true; // Permission is already granted
+    }
+    // Request permission if not already granted
+    const permissionResult = await requestPermission();
+    return permissionResult.granted; // Return the result of the permission request
+  };
+
+  const takeImageHandler = async () => {
+    // Call verifyPermission and only proceed if permission is granted
+    const hasPermission = await verifyPermission();
+    if (!hasPermission) {
+      Alert.alert(
+        'Permission Denied',
+        'You need to grant camera access to take photos.',
+        [{ text: 'OK' }]
+      );
+      return;
+    }
+
+    try {
+      // Launch the camera if permission is granted
       const result = await ImagePicker.launchCameraAsync({
-        allowsEditing: true, // Allow user to edit the image before saving
-        quality: 1, // Set the quality of the image (1 is the highest quality)
+        allowsEditing: true,
+        quality: 1,
       });
 
       if (!result.canceled) {
         console.log('Image selected:', result.assets[0].uri);
-        // Handle the image URI, e.g., pass it back to Input.js or save it
+        // Handle the selected image URI as needed
       }
     } catch (err) {
       Alert.alert('Error', 'An error occurred while opening the camera.');
