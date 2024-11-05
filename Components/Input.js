@@ -1,19 +1,30 @@
 import {Alert, Button, Modal, StyleSheet, Text, TextInput, View, Image } from "react-native";
 import React, { useState } from "react";
 import ImageManager from './ImageManager'; 
+import { auth } from "../Firebase/firebaseSetup";
 
 export default function Input({ autoFocus, inputHandler, ModalVisible, handleCancel }) {
   const [text, setText] = useState("");
   const [hasBlurred, setHasBlurred] = useState(false);
+  const [imageUri, setImageUri] = useState(null);
 
   const handleBlur = () => {
     setHasBlurred(true);  // Set the blur state when input loses focus
   };
 
-  
+  // Add function to receive image URI from ImageManager
+  const handleImageTaken = (uri) => {
+  setImageUri(uri);
+  };
+
   const handleConfirm = () => {
-    inputHandler(text);
-    setText("");
+    inputHandler({
+      text: text,
+      imageUri: imageUri,
+      owner: auth.currentUser.uid,
+    });
+    setText(""); 
+    setImageUri(null);
   };
 
   
@@ -80,7 +91,7 @@ export default function Input({ autoFocus, inputHandler, ModalVisible, handleCan
           <Button title="Cancel" onPress={handleCancelPress} color="#ff6f6f" />
       </View>
 
-      <ImageManager />
+      <ImageManager onImageTaken={handleImageTaken} />
       </View>
     </View>
     </Modal>

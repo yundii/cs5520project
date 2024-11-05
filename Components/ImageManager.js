@@ -2,18 +2,24 @@ import React, { useState } from 'react';
 import { View, Button, Alert,Image, StyleSheet } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 
-export default function ImageManager() {
+export default function ImageManager({ onImageTaken }) {
   const [permissionResponse, requestPermission] = ImagePicker.useCameraPermissions();
   const [imageUri, setImageUri] = useState(null);
 
   // Define the verifyPermission function
   const verifyPermission = async () => {
-    if (permissionResponse?.granted) {
-      return true; // Permission is already granted
+    try {
+      if (permissionResponse?.granted) {
+        return true; // Permission is already granted
     }
     // Request permission if not already granted
-    const permissionResult = await requestPermission();
-    return permissionResult.granted; // Return the result of the permission request
+      const permissionResult = await requestPermission();
+    
+      return permissionResult.granted; // Return the result of the permission request
+    } catch (err) {
+      console.log("Error requesting permission", err);
+      return false;
+    }
   };
 
   const takeImageHandler = async () => {
@@ -38,8 +44,10 @@ export default function ImageManager() {
       });
 
       if (!result.canceled) {
-        setImageUri(result.assets[0].uri); 
-        console.log('Image selected:', result.assets[0].uri);
+        const uri = result.assets[0].uri;
+        setImageUri(uri);
+        onImageTaken(uri);  // Call the callback with the URI
+        console.log('Image selected:', uri);
       }
     } catch (err) {
       Alert.alert('Error', 'An error occurred while opening the camera.');
