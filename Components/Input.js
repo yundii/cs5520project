@@ -14,14 +14,15 @@ export default function Input({ autoFocus, inputHandler, ModalVisible, handleCan
 
   // Add function to receive image URI from ImageManager
   const handleImageTaken = (uri) => {
-  setImageUri(uri);
+    console.log("In Input.js handleImageTaken", uri);
+    setImageUri(uri);
   };
 
   const handleConfirm = () => {
     inputHandler({
       text: text,
       imageUri: imageUri,
-      owner: auth.currentUser.uid,
+      //owner: auth.currentUser.uid,
     });
     setText(""); 
     setImageUri(null);

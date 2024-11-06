@@ -39,12 +39,6 @@ const GoalItem = ({ goal, onDelete, separators}) => {
     <View style={styles.goalItem}>
       <View style={styles.contentContainer}>
         <Text style={styles.text}>{goal.text}</Text>
-        {goal.imageUri && (
-          <Image 
-            source={{ uri: goal.imageUri }} 
-            style={styles.image} 
-          />
-        )}
       </View>
 
       <PressableButton 
