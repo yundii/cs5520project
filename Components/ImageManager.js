@@ -47,7 +47,7 @@ export default function ImageManager({ onImageTaken }) {
         const uri = result.assets[0].uri;
         setImageUri(uri);
         onImageTaken(uri);  // Call the callback with the URI
-        console.log('Image selected:', uri);
+        //console.log('Image selected:', uri);
       }
     } catch (err) {
       Alert.alert('Error', 'An error occurred while opening the camera.');
@@ -59,7 +59,7 @@ export default function ImageManager({ onImageTaken }) {
     <View style={styles.container}>
       <Button title="Take a Photo" onPress={takeImageHandler} />
       {imageUri && (  
-        <Image source={{ uri: imageUri }} style={styles.imagePreview} />
+        <Image source={{ uri: imageUri }} style={styles.imagePreview} alt="preview of the image taken"/>
       )}
     </View>
   );

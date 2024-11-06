@@ -30,7 +30,8 @@ export default function App({navigation, route}) {
     setGoals(newArray);
   },
   (error) => {
-    console.log("Error fetching goals", error.message);
+    console.log(error);
+    Alert.alert(error.message);
   }
 );
 
@@ -47,9 +48,9 @@ export default function App({navigation, route}) {
     console.log("App.js", data);
     let newGoal = {
       text: data.text,
-      imageUri: data.imageUri,
-      owner: auth.currentUser.uid,
+      
     };
+    newGoal = {...newGoal, owner: auth.currentUser.uid};
     // make a new obj and store the received data as obj's text property
     // const newGoal = {
     //   text: data.text,
