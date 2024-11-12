@@ -10,7 +10,7 @@ import { onAuthStateChanged, signOut } from "firebase/auth";
 import { auth } from "./Firebase/firebaseSetup";
 import { Ionicons } from "@expo/vector-icons";
 import { Pressable } from "react-native";
-
+import Map from "./Components/Map";
 
 // Call createNativeStackNavigator outside the App function
 const Stack = createNativeStackNavigator();
@@ -41,8 +41,9 @@ const AppStack =
     )}}
     } />
     <Stack.Screen name="Details" component={GoalDetails} options={({route}) => { return { title: route.params ? route.params.goalData.text : "More Details", ...commonHeaderOptions };}} />
-  </>
- 
+    <Stack.Screen name="Map" component={Map} options={{ title: "Map", ...commonHeaderOptions }} />
+
+ </>
 
 export default function App() {
   const [isUserLoggedIn, setIsUserAuthenticated] = useState(false);

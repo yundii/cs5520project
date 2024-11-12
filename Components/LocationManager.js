@@ -2,10 +2,11 @@ import {Alert, Button, StyleSheet, Text, View, Image} from 'react-native';
 import {useState} from 'react';
 import React from 'react';
 import * as Location from 'expo-location';
-
+import { useNavigation } from '@react-navigation/native';
 
 export default function LocationManager() {
     const [location, setLocation] = useState(null);
+    const navigation = useNavigation();
     const[response, requestPermission] = Location.useForegroundPermissions();
     async function verifyPermission() {
         try {
@@ -35,6 +36,7 @@ export default function LocationManager() {
         <View>
             <Text>Location Manager</Text>
             <Button title="Get Location" onPress={locationHandler} />
+            <Button title="Go to Map" onPress={() => navigation.navigate("Map")} />
             {location && <Image source={{ uri: `https://maps.googleapis.com/maps/api/staticmap?center=${location.latitude},${location.longitude}&zoom=14&size=400x200&maptype=roadmap&markers=color:red%7Clabel:L%7C${location.latitude},${location.longitude}&key=${process.env.EXPO_PUBLIC_mapsApiKey}`}} 
             style={styles.image} alt="location image"/>}
         </View>
