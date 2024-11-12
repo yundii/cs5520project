@@ -40,7 +40,7 @@ export default function ImageManager({ onImageTaken }) {
       // Launch the camera if permission is granted
       const result = await ImagePicker.launchCameraAsync({
         allowsEditing: true,
-        quality: 1,
+        //quality: 1,
       });
 
       if (!result.canceled) {
