@@ -9,6 +9,8 @@ import PressableButton from './PressableButton';
 import {auth, database} from '../Firebase/firebaseSetup';
 import { writeToDB, deleteDocFromDB, deleteAll } from "../Firebase/firestoreHelper";
 import { onSnapshot, collection } from "firebase/firestore";
+import { ref, uploadBytesResumable } from "firebase/storage";
+import { storage } from "../Firebase/firebaseSetup";
 import { Ionicons } from '@expo/vector-icons';
 
 export default function App({navigation, route}) {
@@ -44,13 +46,39 @@ export default function App({navigation, route}) {
 
   const shouldAutoFocus = true;
 
-  function handleInputData(data) {
+  async function fetchAndUploadImage(imageUri) {
+    try { 
+      const response = await fetch(imageUri);
+      if (!response.ok) {
+        throw new Error("Http error status: " + response.status);
+      }
+      const blob = await response.blob();
+      const imageName = imageUri.substring(imageUri.lastIndexOf('/') + 1);
+      const imageRef = ref(storage, `images/${imageName}`)
+      const uploadResult = await uploadBytesResumable(imageRef, blob);
+      console.log("uploadResult", uploadResult);
+      return uploadResult.ref.fullPath;
+    } catch (error) {
+      console.log("fetch And Upload Image error", error);
+    }
+  }
+  
+  async function handleInputData(data) {
     console.log("App.js", data);
+    let imageUrl = "";
+    // upload image to storage, get the url and store in the goal object
+    if (data.imageUri) {
+      imageUrl = await fetchAndUploadImage(data.imageUri);
+    }
     let newGoal = {
       text: data.text,
       
     };
     newGoal = {...newGoal, owner: auth.currentUser.uid};
+
+    if (imageUrl) {
+      newGoal = {...newGoal, imageUrl: imageUrl};
+    }
     // make a new obj and store the received data as obj's text property
     // const newGoal = {
     //   text: data.text,
