@@ -3,7 +3,7 @@ import {useState, useEffect} from 'react';
 import React from 'react';
 import * as Location from 'expo-location';
 import { useNavigation, useRoute } from '@react-navigation/native';
-import { updateDB } from '../Firebase/firestoreHelper';
+import { updateDB, getOneDocument } from '../Firebase/firestoreHelper';
 import { auth } from '../Firebase/firebaseSetup';
 
 export default function LocationManager() {
@@ -11,11 +11,24 @@ export default function LocationManager() {
     const navigation = useNavigation();
     const route = useRoute();
     const[response, requestPermission] = Location.useForegroundPermissions();
+     // In LocationManager, get the user information saved in firestore in useEffect() and set the state variable if the information exists
+     useEffect(() => {
+        async function getUserData() {
+            const userData = await getOneDocument(auth.currentUser.uid, "users");
+            if (userData) {
+                // read the location info from userData and set the state variable
+                setLocation(userData.location);
+            }
+        }
+        getUserData();
+    }, []);
+
     useEffect(() => {
         if (route.params?.location) {
             setLocation(route.params.location);
         }
     }, [route]);
+    
     function saveLocationHandler() {
         // call updateDB from firestoreHelper and save location in a user doc with id=
         updateDB(auth.currentUser.uid, "users", {location: location});
