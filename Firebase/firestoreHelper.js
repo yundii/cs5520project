@@ -1,4 +1,4 @@
-import { addDoc, collection, deleteDoc, doc, getDocs, updateDoc } from "firebase/firestore";
+import { addDoc, collection, deleteDoc, doc, getDocs, updateDoc, setDoc, getDoc } from "firebase/firestore";
 import { database } from "./firebaseSetup";
 
 export async function writeToDB(data, collectionName) {
@@ -39,6 +39,29 @@ export async function updateWarningStatus(docId, collectionName, warningStatus) 
       await updateDoc(goalDocRef, { warning: warningStatus });
     } catch (err) {
       console.log("Update warning status error", err);
+    }
+  }
+
+  // updateDB used setDoc to update a document
+  export async function updateDB(docId, collectionName, data) {
+    try {
+        const goalDocRef = doc(database, collectionName, docId);
+        await setDoc(goalDocRef, data);
+    } catch (err) {
+        console.log("Update db error", err);
+    }
+  }
+
+  export async function getOneDocument(docId, collectionName) {
+    try {
+        const goalDocRef = doc(database, collectionName, docId);
+        const docSnapShot = await getDoc(goalDocRef); 
+        if (docSnapShot.exists()) {
+            return docSnapShot.data();
+        } 
+        return null;
+    } catch (err) {
+        console.log("Get one document error", err);
     }
   }
 

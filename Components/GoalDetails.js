@@ -31,7 +31,7 @@ const GoalDetails = ({ navigation, route }) => {
     useEffect(() => {
       async function getImageUrl() {
         console.log("route.params.goalData.imageUrl", route.params.goalData.imageUrl);
-      if (route.params.goalData.imageUrl) {
+      if (route.params?.goalData?.imageUrl) {
         const imageRef = ref(storage, route.params.goalData.imageUrl);
         const httpUrl = await getDownloadURL(imageRef);
         console.log("httpUrl", httpUrl);
@@ -49,7 +49,7 @@ const GoalDetails = ({ navigation, route }) => {
 
       
         <Button title="More Details" onPress={() => navigation.push("Details")}/>
-        <GoalUsers id={route.params.goalData.id} />
+        {route.params && <GoalUsers id={route.params.goalData.id} />}
         {imageUrl && <Image source={{ uri: imageUrl }} style={styles.image} alt="goal image"/>}
     </View>
   );
