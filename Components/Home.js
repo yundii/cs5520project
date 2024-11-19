@@ -12,6 +12,7 @@ import { onSnapshot, collection } from "firebase/firestore";
 import { ref, uploadBytesResumable } from "firebase/storage";
 import { storage } from "../Firebase/firebaseSetup";
 import { Ionicons } from '@expo/vector-icons';
+import * as Notifications from "expo-notifications";
 
 export default function App({navigation, route}) {
   // console.log(database);
@@ -19,6 +20,15 @@ export default function App({navigation, route}) {
   const [goals, setGoals] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
   const appName = "My app!";
+  useEffect(() => {
+    console.log("Home use effect");
+    const getPushToken = async () => {
+      const pushToken = await Notifications.getExpoPushTokenAsync({projectId: "3acbdf09-f3d0-4316-80fe-d37ce9477d15"});
+      console.log("Token", pushToken);
+    };
+    getPushToken();
+  }, []);
+
   useEffect(()=> {
     const unsubscribe = onSnapshot(
       query(collection(database, "goals"),where("owner", "==", auth.currentUser.uid)),

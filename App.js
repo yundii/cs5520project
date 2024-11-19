@@ -11,6 +11,13 @@ import { auth } from "./Firebase/firebaseSetup";
 import { Ionicons } from "@expo/vector-icons";
 import { Pressable } from "react-native";
 import Map from "./Components/Map";
+import * as Notifications from "expo-notifications";
+
+Notifications.setNotificationHandler({
+  handleNotification: async () => {
+    return {shouldShowAlert: true};
+  },
+});
 
 // Call createNativeStackNavigator outside the App function
 const Stack = createNativeStackNavigator();
