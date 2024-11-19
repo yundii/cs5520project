@@ -15,7 +15,7 @@ import { Ionicons } from '@expo/vector-icons';
 import * as Notifications from "expo-notifications";
 
 export default function App({navigation, route}) {
-  // console.log(database);
+  
   // writeToDB({name: "John Doe", age: 25}, "users");
   const [goals, setGoals] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
